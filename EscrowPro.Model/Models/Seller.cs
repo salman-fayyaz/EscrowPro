@@ -27,5 +27,7 @@ namespace EscrowPro.Model.Models
         public DateTime RegistrationDate { get; set; }
 
         public  ICollection<Transaction> Transactions { get; set; }
+
+        public ICollection<Product> Products {  get; set; }
     }
 }

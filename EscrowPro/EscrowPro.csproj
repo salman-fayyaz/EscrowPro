@@ -16,4 +16,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EscrowPro.Model\EscrowPro.Model.csproj" />
+  </ItemGroup>
+
 </Project>
