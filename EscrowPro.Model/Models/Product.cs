@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EscrowPro.Model.Models
 {
-    public class Buyer
+    public class Product
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,18 +16,17 @@ namespace EscrowPro.Model.Models
 
         public string Name { get; set; }
 
-        public string Email {  get; set; }
+        public string Description {  get; set; }
 
-        public string Password {  get; set; }
+        public int Price {  get; set; }
 
-        public int CNIC { get; set; }
+        public int Quantity {  get; set; }
 
-        public int Phone { get; set; }
+        public Transaction Transaction { get; set; }
 
-        public DateTime RegistrationDate { get; set; }
+        public Buyer Buyer { get; set; }
 
-        public ICollection<Transaction> Transactions { get; set; }
+        public Seller Seller { get; set; }
 
-        public ICollection<Product> Products { get; set; }
     }
 }
