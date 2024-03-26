@@ -15,4 +15,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\" />
+    <Folder Include="Repositories\DbInterfaces\" />
+    <Folder Include="ServicesInterfaces\" />
+  </ItemGroup>
+
 </Project>

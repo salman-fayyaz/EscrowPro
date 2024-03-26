@@ -5,7 +5,11 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscrowPro", "EscrowPro\EscrowPro.csproj", "{77FC255E-9BE1-4BB6-BB77-C0612D19DBA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscrowPro.Model", "EscrowPro.Model\EscrowPro.Model.csproj", "{17329274-04B2-4D67-928A-FAC0734DAA83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscrowPro.Core", "EscrowPro.Model\EscrowPro.Core.csproj", "{17329274-04B2-4D67-928A-FAC0734DAA83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscrowPro.Infrastructure", "EscrowPro.Infrastructure\EscrowPro.Infrastructure.csproj", "{B7FDB6A2-CC4F-463B-8BC4-90AC67449319}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscrowPro.Service", "EscrowPro.Service\EscrowPro.Service.csproj", "{4241DC2B-845C-425E-9191-9B3584A0856C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{17329274-04B2-4D67-928A-FAC0734DAA83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17329274-04B2-4D67-928A-FAC0734DAA83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17329274-04B2-4D67-928A-FAC0734DAA83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7FDB6A2-CC4F-463B-8BC4-90AC67449319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7FDB6A2-CC4F-463B-8BC4-90AC67449319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7FDB6A2-CC4F-463B-8BC4-90AC67449319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7FDB6A2-CC4F-463B-8BC4-90AC67449319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4241DC2B-845C-425E-9191-9B3584A0856C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4241DC2B-845C-425E-9191-9B3584A0856C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4241DC2B-845C-425E-9191-9B3584A0856C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4241DC2B-845C-425E-9191-9B3584A0856C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
