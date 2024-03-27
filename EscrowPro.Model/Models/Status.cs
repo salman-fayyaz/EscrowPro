@@ -6,6 +6,8 @@ namespace EscrowPro.Model.Models
 {
     public class Status
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string Level { get; set; }

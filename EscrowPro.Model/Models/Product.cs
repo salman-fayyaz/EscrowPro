@@ -18,7 +18,7 @@ namespace EscrowPro.Model.Models
 
         public int Quantity {  get; set; }
 
-        public Transaction Transaction { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
 
         public Buyer Buyer { get; set; }
 
