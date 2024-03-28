@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EscrowPro.Model.Models
+namespace EscrowPro.Core.Models
 {
     public class Dispute
     {
