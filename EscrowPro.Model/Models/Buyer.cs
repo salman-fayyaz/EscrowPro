@@ -25,7 +25,7 @@ namespace EscrowPro.Core.Models
         public string Password {  get; set; }
         
         [Required]
-        [Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
+        [Compare("Password", ErrorMessage = "Password and Confirmation Password must match..")]
         public string ConfirmPassword { get; set; }
 
         [Required]
