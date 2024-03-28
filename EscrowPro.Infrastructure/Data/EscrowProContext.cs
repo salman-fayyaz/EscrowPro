@@ -1,4 +1,4 @@
-﻿using EscrowPro.Model.Models;
+﻿using EscrowPro.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 
