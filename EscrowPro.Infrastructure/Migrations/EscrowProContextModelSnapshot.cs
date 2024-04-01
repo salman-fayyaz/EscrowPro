@@ -271,7 +271,7 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasOne("EscrowPro.Core.Models.Transaction", "Transaction")
                         .WithOne("Dispute")
                         .HasForeignKey("EscrowPro.Core.Models.Dispute", "TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Transaction");
@@ -282,13 +282,13 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasOne("EscrowPro.Core.Models.Status", "Status")
                         .WithOne("Escrow")
                         .HasForeignKey("EscrowPro.Core.Models.Escrow", "StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EscrowPro.Core.Models.Transaction", "Transaction")
                         .WithOne("Escrow")
                         .HasForeignKey("EscrowPro.Core.Models.Escrow", "TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Status");
@@ -301,7 +301,7 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasOne("EscrowPro.Core.Models.Transaction", "Transaction")
                         .WithOne("Payment")
                         .HasForeignKey("EscrowPro.Core.Models.Payment", "TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Transaction");
@@ -312,13 +312,13 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasOne("EscrowPro.Core.Models.Buyer", "Buyer")
                         .WithMany("Products")
                         .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EscrowPro.Core.Models.Seller", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Buyer");
@@ -331,25 +331,25 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasOne("EscrowPro.Core.Models.Buyer", "Buyer")
                         .WithMany("Transactions")
                         .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EscrowPro.Core.Models.Product", "Product")
                         .WithOne("Transaction")
                         .HasForeignKey("EscrowPro.Core.Models.Transaction", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EscrowPro.Core.Models.Seller", "Seller")
                         .WithMany("Transactions")
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("EscrowPro.Core.Models.Status", "Status")
                         .WithOne("Transaction")
                         .HasForeignKey("EscrowPro.Core.Models.Transaction", "StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Buyer");
