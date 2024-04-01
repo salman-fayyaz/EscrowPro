@@ -6,6 +6,25 @@ namespace EscrowPro.Infrastructure.Data
 {
     public class EscrowProContext : DbContext
     {
+
+
+        public EscrowProContext() : base()
+        {
+        }
+
+        public EscrowProContext(DbContextOptions<EscrowProContext> options) : base(options)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+        }
+
         public DbSet<Buyer>Buyers { get; set; }
 
         public DbSet<Seller> Sellers { get; set; }
