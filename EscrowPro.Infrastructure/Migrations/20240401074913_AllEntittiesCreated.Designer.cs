@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EscrowPro.Infrastructure.Migrations
 {
     [DbContext(typeof(EscrowProContext))]
-    [Migration("20240401074451_initial")]
-    partial class initial
+    [Migration("20240401074913_AllEntittiesCreated")]
+    partial class AllEntittiesCreated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
