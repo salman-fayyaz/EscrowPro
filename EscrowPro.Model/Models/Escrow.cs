@@ -8,6 +8,7 @@ namespace EscrowPro.Core.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Id { get; set; }
 
         public DateTime FundedDate {  get; set; }

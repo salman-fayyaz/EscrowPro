@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EscrowPro.Infrastructure\EscrowPro.Infrastructure.csproj" />
     <ProjectReference Include="..\EscrowPro.Model\EscrowPro.Core.csproj" />
   </ItemGroup>
 
