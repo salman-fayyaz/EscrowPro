@@ -39,9 +39,26 @@ namespace EscrowPro.Service.Services
             return buyerCreateDto;
         }
 
-        public Task DeleteBuyerAsync(int id)
+        public async Task<List<BuyerReadDto>> DeleteBuyerAsync(int id)
         {
-            throw new NotImplementedException();
+            var deleteBuyer = new List<BuyerReadDto>();
+            var existId = await _context.Buyers.FindAsync(id);
+            if (existId == null)
+            {
+                return null;
+            }
+            _context.Buyers.Remove(existId);
+            await _context.SaveChangesAsync();
+            var existingBuyer = new BuyerReadDto
+            {
+                Id=existId.Id,
+                Name=existId.Name,
+                Email=existId.Email,
+                CNIC=existId.CNIC,
+                Phone=existId.Phone,         
+            };
+            deleteBuyer.Add(existingBuyer);
+            return deleteBuyer;
         }
 
         public Task<IEnumerable<BuyerReadDto>> GetAllBuyersAsync()

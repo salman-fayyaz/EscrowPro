@@ -17,6 +17,7 @@ namespace EscrowPro.Infrastructure.Data
 
         public EscrowProContext(DbContextOptions<EscrowProContext> options) : base(options){}
 
+        public EscrowProContext() { }
 
         public DbSet<Buyer>Buyers { get; set; }
 

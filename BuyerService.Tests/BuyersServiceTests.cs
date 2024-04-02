@@ -5,11 +5,12 @@ using Moq;
 using Microsoft.EntityFrameworkCore;
 using EscrowPro.Core.ServicesInterfaces;
 using Microsoft.Extensions.DependencyInjection;
+using EscrowPro.Core.Models;
 
 namespace BuyerService.Tests
 {
     [TestFixture]
-    public class CreateBuyerAsyncTests
+    public class BuyersServiceTests
     {
         private IBuyerServices _buyerServices;
         private EscrowProContext _context;
@@ -67,5 +68,36 @@ namespace BuyerService.Tests
             Assert.That(result.CNIC, Is.EqualTo(buyerCreateDto.CNIC));
         }
 
+        [Test]
+        public async Task DeleteBuyerAsync_WhenPassingNotFound_ReturnsNull()
+        {
+            var buyer = new Buyer()
+            {
+                Id = 2,
+            };
+            var result = await _buyerServices.DeleteBuyerAsync(1);
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public async Task DeleteBuyerAsync_WhenPassingIdFound_ReturnsPassedId()
+        {
+            var buyer = new BuyerCreateDto()
+            {
+                Name = "Salman",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = 0321-7553432,
+                CNIC = 12345-6789012-3
+            };
+            await _buyerServices.CreateBuyerAsync(buyer);
+            var result = await _buyerServices.DeleteBuyerAsync(1);
+            Assert.IsNotNull(result);
+            Assert.That(buyer.Name, Is.EqualTo(result[0].Name));
+            Assert.That(buyer.Email, Is.EqualTo(result[0].Email));
+            Assert.That(buyer.CNIC, Is.EqualTo(result[0].CNIC));
+            Assert.That(buyer.Phone, Is.EqualTo(result[0].Phone));
+        }
     }
 }
