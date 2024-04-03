@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Numerics;
 using EscrowPro.Core.Dtos;
 using EscrowPro.Core.Models;
 using EscrowPro.Core.ServicesInterfaces;
 using EscrowPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace EscrowPro.Service.Services
 {
@@ -101,9 +103,32 @@ namespace EscrowPro.Service.Services
             return foundBuyerList;
         }
 
-        public Task<BuyerUpdateDto> UpdateBuyerAsync(int id, BuyerUpdateDto buyerUpdateDto)
+        public async Task<List<BuyerUpdateDto>> UpdateBuyerAsync(int id, BuyerUpdateDto buyerUpdateDto)
         {
-            throw new NotImplementedException();
+            var updatedbuyerList = new List<BuyerUpdateDto>();
+            var updateBuyer = await _context.Buyers.FindAsync(id);
+            if (updateBuyer == null)
+            {
+                return null;
+            }
+            updateBuyer.Id = id;
+            updateBuyer.Name = buyerUpdateDto.Name;
+            updateBuyer.Email= buyerUpdateDto.Email;
+            updateBuyer.Password= buyerUpdateDto.Password;
+            updateBuyer.ConfirmPassword= buyerUpdateDto.ConfirmPassword;
+            updateBuyer.Phone= buyerUpdateDto.Phone;
+            updateBuyer.CNIC= buyerUpdateDto.CNIC;
+            var updatedBuyer = new BuyerUpdateDto
+            {
+                Name=updateBuyer.Name,
+                Email=updateBuyer.Email,
+                Phone=updateBuyer.Phone,
+                CNIC=updateBuyer.CNIC,
+                Password=updateBuyer.Password,
+                ConfirmPassword=updateBuyer.ConfirmPassword,
+            };
+            updatedbuyerList.Add(updatedBuyer);
+            return updatedbuyerList;
         }
     }
 }

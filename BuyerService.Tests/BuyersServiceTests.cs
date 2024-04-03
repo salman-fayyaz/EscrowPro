@@ -161,5 +161,38 @@ namespace BuyerService.Tests
             Assert.That(foundedBuyer.Any(b => b.CNIC == 12345 - 6789012 - 3));
         }
 
+        [Test]
+        public async Task UpdateBuyer_whenPassingIdNotFound_ReturnsNull()
+        {
+            var buyer = new BuyerCreateDto()
+            {
+                //here selfgenerated Id=1
+                Name = "Salman",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = 0321 - 7553432,
+                CNIC = 12345 - 6789012 - 3
+            };
+            await _buyerServices.CreateBuyerAsync(buyer);
+            var updateBuyer = new BuyerUpdateDto
+            {
+                Name="xyz",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = 0321 - 7553432,
+                CNIC = 12345 - 6789012 - 3
+            };
+            var result = await _buyerServices.UpdateBuyerAsync(1,updateBuyer);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Any(b => b.Name == "xyz"));
+            Assert.That(result.Any(b => b.Email == "sfayyaz7c@gmail.com"));
+            Assert.That(result.Any(b => b.Password == "password123"));
+            Assert.That(result.Any(b => b.ConfirmPassword == "password123"));
+            Assert.That(result.Any(b => b.Phone == 0321 - 7553432));
+            Assert.That(result.Any(b => b.CNIC == 12345 - 6789012 - 3));
+        }
+
     }
 }
