@@ -80,9 +80,25 @@ namespace EscrowPro.Service.Services
             return buyersDtoList;
         }
 
-        public Task<BuyerReadDto> GetBuyerByIdAsync(int id)
+        public async Task<List<BuyerReadDto>> GetBuyerByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var foundBuyerList = new List<BuyerReadDto>();
+            var findId = await _context.Buyers.FindAsync(id);
+            if(findId == null)
+            {
+                return null;
+            }
+            var buyerDto = new BuyerReadDto
+            {
+                Id = findId.Id,
+                Name = findId.Name,
+                Email=findId.Email,
+                CNIC=findId.CNIC,
+                Phone=findId.Phone,
+            };
+
+            foundBuyerList.Add(buyerDto);
+            return foundBuyerList;
         }
 
         public Task<BuyerUpdateDto> UpdateBuyerAsync(int id, BuyerUpdateDto buyerUpdateDto)

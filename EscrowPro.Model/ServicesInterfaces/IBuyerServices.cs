@@ -10,7 +10,7 @@ namespace EscrowPro.Core.ServicesInterfaces
 
         Task<IEnumerable<BuyerReadDto>> GetAllBuyersAsync();
 
-        Task<BuyerReadDto> GetBuyerByIdAsync(int id);
+        Task<List<BuyerReadDto>> GetBuyerByIdAsync(int id);
 
         Task<BuyerUpdateDto> UpdateBuyerAsync(int id, BuyerUpdateDto buyerUpdateDto);
 

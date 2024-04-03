@@ -99,6 +99,7 @@ namespace BuyerService.Tests
             Assert.That(buyer.CNIC, Is.EqualTo(result[0].CNIC));
             Assert.That(buyer.Phone, Is.EqualTo(result[0].Phone));
         }
+
         [Test]
         public async Task GetALlBuyers_WhenCalled_ReturnAllBuyers()
         {
@@ -119,5 +120,46 @@ namespace BuyerService.Tests
             Assert.That(buyersList.Any(b => b.CNIC == 12345-6789012-3));
             Assert.That(buyersList.Any(b => b.Phone == 0321-7553432));
         }
+
+        [Test]
+        public async Task GetbuyerById_WhenPassingIdNotFound_ReturnsNull()
+        {
+            var buyer = new BuyerCreateDto()
+            {
+                //here it is automatically generate id=1, but i ask for 2 which is not created so
+                Name = "Salman",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = 0321 - 7553432,
+                CNIC = 12345 - 6789012 - 3
+            };
+            await _buyerServices.CreateBuyerAsync(buyer);
+            var result = await _buyerServices.GetBuyerByIdAsync(2);
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public async Task GetbuyerById_WhenPassingIdFound_ReturnsBuyer()
+        {
+            var buyer = new BuyerCreateDto()
+            {
+                Name = "Salman",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = 0321-7553432,
+                CNIC = 12345-6789012-3
+            };
+            await _buyerServices.CreateBuyerAsync(buyer);
+            var foundedBuyer = await _buyerServices.GetBuyerByIdAsync(1);
+            Assert.That(foundedBuyer, Is.Not.Null);
+            Assert.That(foundedBuyer.Any(b => b.Id == 1));
+            Assert.That(foundedBuyer.Any(b => b.Name == "Salman"));
+            Assert.That(foundedBuyer.Any(b => b.Email == "sfayyaz7c@gmail.com"));
+            Assert.That(foundedBuyer.Any(b => b.Phone == 0321 - 7553432));
+            Assert.That(foundedBuyer.Any(b => b.CNIC == 12345 - 6789012 - 3));
+        }
+
     }
 }
