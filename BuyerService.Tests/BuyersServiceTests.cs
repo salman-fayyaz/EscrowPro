@@ -99,5 +99,25 @@ namespace BuyerService.Tests
             Assert.That(buyer.CNIC, Is.EqualTo(result[0].CNIC));
             Assert.That(buyer.Phone, Is.EqualTo(result[0].Phone));
         }
+        [Test]
+        public async Task GetALlBuyers_WhenCalled_ReturnAllBuyers()
+        {
+            var buyer = new BuyerCreateDto()
+            {
+                Name = "Salman",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = 0321-7553432,
+                CNIC = 12345-6789012-3
+            };
+            await _buyerServices.CreateBuyerAsync(buyer);
+            var buyersList=await _buyerServices.GetAllBuyersAsync();
+            Assert.IsNotNull(buyersList);
+            Assert.That(buyersList.Any(b => b.Name == "Salman"));
+            Assert.That(buyersList.Any(b => b.Email == "sfayyaz7c@gmail.com"));
+            Assert.That(buyersList.Any(b => b.CNIC == 12345-6789012-3));
+            Assert.That(buyersList.Any(b => b.Phone == 0321-7553432));
+        }
     }
 }
