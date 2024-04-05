@@ -29,12 +29,12 @@ namespace EscrowPro.Core.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [RegularExpression("^[0-9]{5}-[-|]-[0-9]{7}-[-|]-[0-9]{1}ErrorMessage = \"CNIC No must follow the XXXXX-XXXXXXX-X format!")]
-        public int CNIC { get; set; }
+        [RegularExpression("^[0-9]{5}-[0-9]{7}-[0-9]{1}$", ErrorMessage = "CNIC No must follow the XXXXX-XXXXXXX-X format!")]
+        public string CNIC { get; set; }
 
         [Required(ErrorMessage ="Phone number is required")]
         [Phone(ErrorMessage = "Invalid phone number")]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
 
         public DateTime RegistrationDate { get; set; }
 

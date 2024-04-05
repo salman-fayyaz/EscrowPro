@@ -4,7 +4,7 @@ using System;
 
 namespace EscrowPro.Core.Dtos
 {
-    public class BuyerReadDto
+    public class ReadBuyerDto
     {
         public int Id { get; set; }
 
@@ -12,9 +12,9 @@ namespace EscrowPro.Core.Dtos
 
         public string Email { get; set; }
 
-        public int CNIC { get; set; }
+        public string CNIC { get; set; }
 
-        public int Phone { get; set; }
+        public string Phone { get; set; }
 
         public ICollection<Transaction> Transactions { get; set; }
 

@@ -20,7 +20,7 @@ namespace EscrowPro.Service.Services
             _context=escrowProContext;
         }
 
-        public async Task<BuyerCreateDto> CreateBuyerAsync(BuyerCreateDto buyerCreateDto)
+        public async Task<CreateBuyerDto> CreateBuyerAsync(CreateBuyerDto buyerCreateDto)
         {
             if (buyerCreateDto == null)
             {
@@ -41,9 +41,9 @@ namespace EscrowPro.Service.Services
             return buyerCreateDto;
         }
 
-        public async Task<List<BuyerReadDto>> DeleteBuyerAsync(int id)
+        public async Task<List<ReadBuyerDto>> DeleteBuyerAsync(int id)
         {
-            var deleteBuyer = new List<BuyerReadDto>();
+            var deleteBuyer = new List<ReadBuyerDto>();
             var existId = await _context.Buyers.FindAsync(id);
             if (existId == null)
             {
@@ -51,7 +51,7 @@ namespace EscrowPro.Service.Services
             }
             _context.Buyers.Remove(existId);
             await _context.SaveChangesAsync();
-            var existingBuyer = new BuyerReadDto
+            var existingBuyer = new ReadBuyerDto
             {
                 Id=existId.Id,
                 Name=existId.Name,
@@ -63,13 +63,13 @@ namespace EscrowPro.Service.Services
             return deleteBuyer;
         }
 
-        public async Task<IEnumerable<BuyerReadDto>> GetAllBuyersAsync()
+        public async Task<IEnumerable<ReadBuyerDto>> GetAllBuyersAsync()
         {
-            var buyersDtoList=new List<BuyerReadDto>();
+            var buyersDtoList=new List<ReadBuyerDto>();
             var buyers= await _context.Buyers.ToListAsync();
             foreach (var buyer in buyers)
             {
-                var dtoBuyer = new BuyerReadDto
+                var dtoBuyer = new ReadBuyerDto
                 {
                     Id=buyer.Id,
                     Name=buyer.Name,
@@ -82,15 +82,15 @@ namespace EscrowPro.Service.Services
             return buyersDtoList;
         }
 
-        public async Task<List<BuyerReadDto>> GetBuyerByIdAsync(int id)
+        public async Task<List<ReadBuyerDto>> GetBuyerByIdAsync(int id)
         {
-            var foundBuyerList = new List<BuyerReadDto>();
+            var foundBuyerList = new List<ReadBuyerDto>();
             var findId = await _context.Buyers.FindAsync(id);
             if(findId == null)
             {
                 return null;
             }
-            var buyerDto = new BuyerReadDto
+            var buyerDto = new ReadBuyerDto
             {
                 Id = findId.Id,
                 Name = findId.Name,
@@ -103,9 +103,9 @@ namespace EscrowPro.Service.Services
             return foundBuyerList;
         }
 
-        public async Task<List<BuyerUpdateDto>> UpdateBuyerAsync(int id, BuyerUpdateDto buyerUpdateDto)
+        public async Task<List<UpdateBuyerDto>> UpdateBuyerAsync(int id, UpdateBuyerDto buyerUpdateDto)
         {
-            var updatedbuyerList = new List<BuyerUpdateDto>();
+            var updatedbuyerList = new List<UpdateBuyerDto>();
             var updateBuyer = await _context.Buyers.FindAsync(id);
             if (updateBuyer == null)
             {
@@ -118,7 +118,7 @@ namespace EscrowPro.Service.Services
             updateBuyer.ConfirmPassword= buyerUpdateDto.ConfirmPassword;
             updateBuyer.Phone= buyerUpdateDto.Phone;
             updateBuyer.CNIC= buyerUpdateDto.CNIC;
-            var updatedBuyer = new BuyerUpdateDto
+            var updatedBuyer = new UpdateBuyerDto
             {
                 Name=updateBuyer.Name,
                 Email=updateBuyer.Email,

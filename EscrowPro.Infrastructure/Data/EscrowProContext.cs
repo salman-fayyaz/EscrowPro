@@ -19,7 +19,7 @@ namespace EscrowPro.Infrastructure.Data
 
         public EscrowProContext() { }
 
-        public DbSet<Buyer>Buyers { get; set; }
+        public DbSet<Buyer> Buyers { get; set; }
 
         public DbSet<Seller> Sellers { get; set; }
 
@@ -29,11 +29,11 @@ namespace EscrowPro.Infrastructure.Data
 
         public DbSet<Status> Statuses { get; set; }
 
-        public DbSet<Product> Products {  get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public DbSet<Escrow> Escrows { get; set; }
 
-        public DbSet<Dispute> Disputes { get; set; }    
+        public DbSet<Dispute> Disputes { get; set; }
 
     }
 }

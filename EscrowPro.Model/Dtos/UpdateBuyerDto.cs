@@ -1,11 +1,11 @@
-﻿using System;
+﻿using EscrowPro.Core.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace EscrowPro.Core.Dtos
 {
-    public class BuyerCreateDto
+    public class UpdateBuyerDto
     {
-
         [Required(ErrorMessage = "Name is required")]
         [MaxLength(25)]
         [Display(Name = "Buyer Name")]
@@ -25,14 +25,15 @@ namespace EscrowPro.Core.Dtos
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [RegularExpression("^[0-9]{5}-[-|]-[0-9]{7}-[-|]-[0-9]{1}ErrorMessage = \"CNIC No must follow the XXXXX-XXXXXXX-X format!")]
-        public int CNIC { get; set; }
+        [RegularExpression("^[0-9]{5}-[0-9]{7}-[0-9]{1}$", ErrorMessage = "CNIC No must follow the XXXXX-XXXXXXX-X format!")]
+        public string CNIC { get; set; }
 
         [Required(ErrorMessage = "Phone number is required")]
         [Phone(ErrorMessage = "Invalid phone number")]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
 
-        public DateTime RegistrationDate { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
 
+        public ICollection<Product> Products { get; set; }
     }
 }

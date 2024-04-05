@@ -41,7 +41,7 @@ namespace BuyerService.Tests
         [Test]
         public async Task CreateBuyerAsync_PassingNullInput_ReturnsNull()
         {
-            BuyerCreateDto buyerCreateDto = null;
+            CreateBuyerDto buyerCreateDto = null;
             var mockContext = new Mock<EscrowProContext>();
             var buyerService = new BuyerServices(mockContext.Object);
             var result = await buyerService.CreateBuyerAsync(buyerCreateDto);
@@ -51,14 +51,14 @@ namespace BuyerService.Tests
         [Test]
         public async Task CreateBuyerAsync_PassingValues_ReturnCreatedNewBuyerValues()
         {
-            var buyerCreateDto = new BuyerCreateDto
+            var buyerCreateDto = new CreateBuyerDto
             {
                 Name = "Salman",
                 Email = "sfayyaz7c@gmail.com",
                 Password = "password123",
                 ConfirmPassword = "password123",
-                Phone = 0321-7553432,
-                CNIC = 12345-6789012-3
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
             };
             var result = await _buyerServices.CreateBuyerAsync(buyerCreateDto);
             Assert.That(result.Name, Is.EqualTo(buyerCreateDto.Name));
@@ -82,14 +82,14 @@ namespace BuyerService.Tests
         [Test]
         public async Task DeleteBuyerAsync_WhenPassingIdFound_ReturnsPassedId()
         {
-            var buyer = new BuyerCreateDto()
+            var buyer = new CreateBuyerDto()
             {
                 Name = "Salman",
                 Email = "sfayyaz7c@gmail.com",
                 Password = "password123",
                 ConfirmPassword = "password123",
-                Phone = 0321-7553432,
-                CNIC = 12345-6789012-3
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
             };
             await _buyerServices.CreateBuyerAsync(buyer);
             var result = await _buyerServices.DeleteBuyerAsync(1);
@@ -103,36 +103,36 @@ namespace BuyerService.Tests
         [Test]
         public async Task GetALlBuyers_WhenCalled_ReturnAllBuyers()
         {
-            var buyer = new BuyerCreateDto()
+            var buyer = new CreateBuyerDto()
             {
                 Name = "Salman",
                 Email = "sfayyaz7c@gmail.com",
                 Password = "password123",
                 ConfirmPassword = "password123",
-                Phone = 0321-7553432,
-                CNIC = 12345-6789012-3
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
             };
             await _buyerServices.CreateBuyerAsync(buyer);
             var buyersList=await _buyerServices.GetAllBuyersAsync();
             Assert.IsNotNull(buyersList);
             Assert.That(buyersList.Any(b => b.Name == "Salman"));
             Assert.That(buyersList.Any(b => b.Email == "sfayyaz7c@gmail.com"));
-            Assert.That(buyersList.Any(b => b.CNIC == 12345-6789012-3));
-            Assert.That(buyersList.Any(b => b.Phone == 0321-7553432));
+            Assert.That(buyersList.Any(b => b.CNIC == "12345-6789012-3"));
+            Assert.That(buyersList.Any(b => b.Phone == "0321-7553432"));
         }
 
         [Test]
         public async Task GetbuyerById_WhenPassingIdNotFound_ReturnsNull()
         {
-            var buyer = new BuyerCreateDto()
+            var buyer = new CreateBuyerDto()
             {
                 //here it is automatically generate id=1, but i ask for 2 which is not created so
                 Name = "Salman",
                 Email = "sfayyaz7c@gmail.com",
                 Password = "password123",
                 ConfirmPassword = "password123",
-                Phone = 0321 - 7553432,
-                CNIC = 12345 - 6789012 - 3
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
             };
             await _buyerServices.CreateBuyerAsync(buyer);
             var result = await _buyerServices.GetBuyerByIdAsync(2);
@@ -142,14 +142,14 @@ namespace BuyerService.Tests
         [Test]
         public async Task GetbuyerById_WhenPassingIdFound_ReturnsBuyer()
         {
-            var buyer = new BuyerCreateDto()
+            var buyer = new CreateBuyerDto()
             {
                 Name = "Salman",
                 Email = "sfayyaz7c@gmail.com",
                 Password = "password123",
                 ConfirmPassword = "password123",
-                Phone = 0321-7553432,
-                CNIC = 12345-6789012-3
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
             };
             await _buyerServices.CreateBuyerAsync(buyer);
             var foundedBuyer = await _buyerServices.GetBuyerByIdAsync(1);
@@ -157,32 +157,32 @@ namespace BuyerService.Tests
             Assert.That(foundedBuyer.Any(b => b.Id == 1));
             Assert.That(foundedBuyer.Any(b => b.Name == "Salman"));
             Assert.That(foundedBuyer.Any(b => b.Email == "sfayyaz7c@gmail.com"));
-            Assert.That(foundedBuyer.Any(b => b.Phone == 0321 - 7553432));
-            Assert.That(foundedBuyer.Any(b => b.CNIC == 12345 - 6789012 - 3));
+            Assert.That(foundedBuyer.Any(b => b.Phone == "0321-7553432"));
+            Assert.That(foundedBuyer.Any(b => b.CNIC == "12345-6789012-3"));
         }
 
         [Test]
         public async Task UpdateBuyer_whenPassingIdNotFound_ReturnsNull()
         {
-            var buyer = new BuyerCreateDto()
+            var buyer = new CreateBuyerDto()
             {
                 //here selfgenerated Id=1
                 Name = "Salman",
                 Email = "sfayyaz7c@gmail.com",
                 Password = "password123",
                 ConfirmPassword = "password123",
-                Phone = 0321 - 7553432,
-                CNIC = 12345 - 6789012 - 3
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
             };
             await _buyerServices.CreateBuyerAsync(buyer);
-            var updateBuyer = new BuyerUpdateDto
+            var updateBuyer = new UpdateBuyerDto
             {
                 Name="xyz",
                 Email = "sfayyaz7c@gmail.com",
                 Password = "password123",
                 ConfirmPassword = "password123",
-                Phone = 0321 - 7553432,
-                CNIC = 12345 - 6789012 - 3
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
             };
             var result = await _buyerServices.UpdateBuyerAsync(1,updateBuyer);
             Assert.That(result, Is.Not.Null);
@@ -190,8 +190,8 @@ namespace BuyerService.Tests
             Assert.That(result.Any(b => b.Email == "sfayyaz7c@gmail.com"));
             Assert.That(result.Any(b => b.Password == "password123"));
             Assert.That(result.Any(b => b.ConfirmPassword == "password123"));
-            Assert.That(result.Any(b => b.Phone == 0321 - 7553432));
-            Assert.That(result.Any(b => b.CNIC == 12345 - 6789012 - 3));
+            Assert.That(result.Any(b => b.Phone == "0321-7553432"));
+            Assert.That(result.Any(b => b.CNIC == "12345-6789012-3"));
         }
 
     }
