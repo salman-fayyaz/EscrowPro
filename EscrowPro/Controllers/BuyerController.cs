@@ -13,16 +13,13 @@ namespace EscrowPro.Controllers
     {
         private readonly IBuyerServices _buyerServices;
 
-        private readonly IMapper _mapper;
-
-        public BuyerController(IBuyerServices buyerServices, IMapper mapper)
+        public BuyerController(IBuyerServices buyerServices)
         {
             _buyerServices=buyerServices;
-            _mapper=mapper;
         }
 
         [HttpPost]
-        public async Task<ActionResult<ReadBuyerDto>> CreateBuyer(CreateBuyerDto createBuyerDto)
+        public async Task<ActionResult<ReadBuyerDto>> CreateBuyerAsync(CreateBuyerDto createBuyerDto)
         {
             var newBuyer = new CreateBuyerDto
             {
@@ -34,9 +31,16 @@ namespace EscrowPro.Controllers
                 Phone = createBuyerDto.Phone,
                 RegistrationDate = DateTime.Now,
             };
-            await _buyerServices.CreateBuyerAsync(newBuyer);
-            return Ok(newBuyer);
-        }
 
+            var readNewBuyer = new ReadBuyerDto
+            {
+                Name=newBuyer.Name,
+                Email=newBuyer.Email,
+                CNIC=newBuyer.CNIC,
+                Phone = newBuyer.Phone
+            };
+            await _buyerServices.CreateBuyerAsync(newBuyer);
+            return Ok(readNewBuyer);
+        }
     }
 }

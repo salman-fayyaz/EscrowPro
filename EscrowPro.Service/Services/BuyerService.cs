@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace EscrowPro.Service.Services
 {
-    public class BuyerServices : IBuyerServices
+    public class BuyerService : IBuyerServices
     {
         private readonly EscrowProContext _context;
 
-        public BuyerServices(){}
+        public BuyerService(){}
 
-        public BuyerServices(EscrowProContext escrowProContext)
+        public BuyerService(EscrowProContext escrowProContext)
         {
             _context=escrowProContext;
         }

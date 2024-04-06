@@ -29,7 +29,7 @@ namespace BuyerService.Tests
             .Options;
 
             _context = new EscrowProContext(options);
-            _buyerServices = new BuyerServices(_context);
+            _buyerServices = new EscrowPro.Service.Services.BuyerService(_context);
         }
 
         [TearDown]
@@ -43,7 +43,7 @@ namespace BuyerService.Tests
         {
             CreateBuyerDto buyerCreateDto = null;
             var mockContext = new Mock<EscrowProContext>();
-            var buyerService = new BuyerServices(mockContext.Object);
+            var buyerService = new EscrowPro.Service.Services.BuyerService(mockContext.Object);
             var result = await buyerService.CreateBuyerAsync(buyerCreateDto);
             Assert.IsNull(result);
         }
