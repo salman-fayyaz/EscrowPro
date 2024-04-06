@@ -32,7 +32,7 @@ namespace EscrowPro.Controllers
                 RegistrationDate = DateTime.Now,
             };
 
-            var readNewBuyer = new ReadBuyerDto
+            var readNewBuyerDto = new ReadBuyerDto
             {
                 Name=newBuyer.Name,
                 Email=newBuyer.Email,
@@ -40,7 +40,14 @@ namespace EscrowPro.Controllers
                 Phone = newBuyer.Phone
             };
             await _buyerServices.CreateBuyerAsync(newBuyer);
-            return Ok(readNewBuyer);
+            return Ok(readNewBuyerDto);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ReadBuyerDto>> GetAllBuyersAsync()
+        {
+            var buyers=await _buyerServices.GetAllBuyersAsync();
+            return Ok(buyers);
         }
     }
 }

@@ -21,7 +21,6 @@ namespace ControllersTest
 
         }
 
-
         [Test]
         public async Task CreateBuyerAsync_PassingValues_ReturnsOkResult()
         {
@@ -41,6 +40,17 @@ namespace ControllersTest
             Assert.NotNull(result);
             Assert.IsInstanceOf<OkObjectResult>(result.Result);
             var okResult = (OkObjectResult)result.Result;
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+        [Test]
+        public async Task GetAllBuyersAsync_ReturnsOk()
+        {
+            var mockBuyerServices = new Mock<IBuyerServices>();
+            var controller = new BuyerController(mockBuyerServices.Object);
+            var result = await controller.GetAllBuyersAsync();
+            Assert.NotNull(result);
+            var okResult= (OkObjectResult)result.Result;
             Assert.AreEqual(200, okResult.StatusCode);
         }
     }
