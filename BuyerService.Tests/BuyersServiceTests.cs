@@ -12,7 +12,7 @@ namespace BuyerService.Tests
     [TestFixture]
     public class BuyersServiceTests
     {
-        private IBuyerServices _buyerServices;
+        private IBuyerService _buyerServices;
         private EscrowProContext _context;
 
 

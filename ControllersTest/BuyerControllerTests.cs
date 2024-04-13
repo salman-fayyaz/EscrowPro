@@ -8,13 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using EscrowPro.Core.Models;
 using EscrowPro.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ControllersTest
 {
     [TestFixture]
     public class BuyerControllerTests
     {
-
         [SetUp]
         public void Setup()
         {
@@ -24,7 +24,7 @@ namespace ControllersTest
         [Test]
         public async Task CreateBuyerAsync_PassingValues_ReturnsOkResult()
         {
-            var mockBuyerServices = new Mock<IBuyerServices>();
+            var mockBuyerServices = new Mock<IBuyerService>();
             var controller = new BuyerController(mockBuyerServices.Object);
             var createBuyerDto = new CreateBuyerDto
             {
@@ -46,12 +46,32 @@ namespace ControllersTest
         [Test]
         public async Task GetAllBuyersAsync_ReturnsOk()
         {
-            var mockBuyerServices = new Mock<IBuyerServices>();
+            var mockBuyerServices = new Mock<IBuyerService>();
             var controller = new BuyerController(mockBuyerServices.Object);
             var result = await controller.GetAllBuyersAsync();
             Assert.NotNull(result);
             var okResult= (OkObjectResult)result.Result;
             Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+        [Test]
+        public async Task GetBuyerById_IfIdNotFound_ReturnsNotFound()
+        {
+            var mockBuyerServices = new Mock<IBuyerService>();
+            var controller = new BuyerController(mockBuyerServices.Object);
+            var result = await controller.GetBuyerByIdAsync(3);
+            var notFoundResult = (NotFoundResult)result.Result;
+            Assert.AreEqual(404, notFoundResult.StatusCode);
+        }
+
+        [Test]
+        public async Task GetBuyerById_IfFound_ReturnsOk()
+        {
+            var mockBuyerServices = new Mock<IBuyerService>();
+            var controller = new BuyerController(mockBuyerServices.Object);
+          //  var result = await controller.GetBuyerByIdAsync(5);
+          //  Assert.IsNotNull(result);
+          //continue from here bro................................
         }
     }
 }

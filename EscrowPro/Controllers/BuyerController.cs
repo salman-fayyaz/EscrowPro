@@ -11,9 +11,9 @@ namespace EscrowPro.Controllers
     [ApiController]
     public class BuyerController : ControllerBase
     {
-        private readonly IBuyerServices _buyerServices;
+        private readonly IBuyerService _buyerServices;
 
-        public BuyerController(IBuyerServices buyerServices)
+        public BuyerController(IBuyerService buyerServices)
         {
             _buyerServices=buyerServices;
         }
@@ -48,6 +48,17 @@ namespace EscrowPro.Controllers
         {
             var buyers=await _buyerServices.GetAllBuyersAsync();
             return Ok(buyers);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ReadBuyerDto>> GetBuyerByIdAsync(int id)
+        {
+            var buyer = await _buyerServices.GetBuyerByIdAsync(id);
+            if (buyer == null)
+            {
+                return NotFound();
+            }
+            return Ok(buyer);
         }
     }
 }

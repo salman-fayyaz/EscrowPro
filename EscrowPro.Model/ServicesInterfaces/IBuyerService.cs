@@ -4,7 +4,7 @@ using System;
 
 namespace EscrowPro.Core.ServicesInterfaces
 {
-    public interface IBuyerServices
+    public interface IBuyerService
     {
         Task<CreateBuyerDto> CreateBuyerAsync(CreateBuyerDto buyerCreateDto);
 
