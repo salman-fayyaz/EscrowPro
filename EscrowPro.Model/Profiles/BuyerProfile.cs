@@ -5,7 +5,7 @@ using System;
 
 namespace EscrowPro.Core.Profiles
 {
-    public class BuyerProfile:Profile
+   public class BuyerProfile:Profile
     {
         public BuyerProfile()
         {
