@@ -7,10 +7,10 @@ using EscrowPro.Core.ServicesInterfaces;
 using Microsoft.Extensions.DependencyInjection;
 using EscrowPro.Core.Models;
 
-namespace BuyerService.Tests
+namespace ServicesTests
 {
     [TestFixture]
-    public class BuyersServiceTests
+    public class BuyerServiceTests
     {
         private IBuyerService _buyerServices;
         private EscrowProContext _context;
@@ -43,7 +43,7 @@ namespace BuyerService.Tests
         {
             CreateBuyerDto buyerCreateDto = null;
             var mockContext = new Mock<EscrowProContext>();
-            var buyerService = new EscrowPro.Service.Services.BuyerService(mockContext.Object);
+            var buyerService = new BuyerService(mockContext.Object);
             var result = await buyerService.CreateBuyerAsync(buyerCreateDto);
             Assert.IsNull(result);
         }
