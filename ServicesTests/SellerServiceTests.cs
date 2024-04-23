@@ -88,7 +88,44 @@ namespace ServicesTests
             Assert.That(sellersList.Any(b => b.Phone == "0321-7553432"));
         }
 
+        [Test]
+        public async Task GetSellerByIdAsync_WhenPassingIdNotFound_ReturnsNull()
+        {
+            var seller = new CreateSellerDto()
+            {
+                Name = "Salman",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
+            };
+            await _sellerServices.CreateSellerAsync(seller);
+            var result = await _sellerServices.GetSellerByIdAsync(2);
+            Assert.IsNull(result);
+        }
 
+        [Test]
+        public async Task GetSellerByIdAsync_WhenPassingIdFound_ReturnsSeller()
+        {
+            var seller = new CreateSellerDto()
+            {
+                Name = "faizan",
+                Email = "ffayyaz7c@gmail.com",
+                Password = "pass123",
+                ConfirmPassword = "pass123",
+                Phone = "0321-7553632",
+                CNIC = "12345-6789032-9"
+            };
+            await _sellerServices.CreateSellerAsync(seller);
+            var foundSeller = await _sellerServices.GetSellerByIdAsync(1);
+            Assert.That(foundSeller, Is.Not.Null);
+            Assert.That(foundSeller.Any(b => b.Id == 1));
+            Assert.That(foundSeller.Any(b => b.Name == "faizan"));
+            Assert.That(foundSeller.Any(b => b.Email == "ffayyaz7c@gmail.com"));
+            Assert.That(foundSeller.Any(b => b.Phone == "0321-7553632"));
+            Assert.That(foundSeller.Any(b => b.CNIC == "12345-6789032-9"));
+        }
 
 
     }
