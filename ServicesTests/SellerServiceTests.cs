@@ -1,4 +1,5 @@
 ﻿using EscrowPro.Core.Dtos;
+using EscrowPro.Core.Models;
 using EscrowPro.Core.ServicesInterfaces;
 using EscrowPro.Infrastructure.Data;
 using EscrowPro.Service.Services;
@@ -125,6 +126,38 @@ namespace ServicesTests
             Assert.That(foundSeller.Any(b => b.Email == "ffayyaz7c@gmail.com"));
             Assert.That(foundSeller.Any(b => b.Phone == "0321-7553632"));
             Assert.That(foundSeller.Any(b => b.CNIC == "12345-6789032-9"));
+        }
+
+        [Test]
+        public async Task DeleteSellerAsync_WhenPassingNotFound_ReturnsNull()
+        {
+            var seller = new Seller()
+            {
+                Id = 2,
+            };
+            var result = await _sellerServices.DeleteSellerAsync(1);
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public async Task DeleteSellerAsync_WhenPassingIdFound_ReturnsDeletedSeller()
+        {
+            var seller = new CreateSellerDto()
+            {
+                Name = "Salman",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
+            };
+            await _sellerServices.CreateSellerAsync(seller);
+            var result = await _sellerServices.DeleteSellerAsync(1);
+            Assert.IsNotNull(result);
+            Assert.That(seller.Name, Is.EqualTo(result[0].Name));
+            Assert.That(seller.Email, Is.EqualTo(result[0].Email));
+            Assert.That(seller.CNIC, Is.EqualTo(result[0].CNIC));
+            Assert.That(seller.Phone, Is.EqualTo(result[0].Phone));
         }
 
 
