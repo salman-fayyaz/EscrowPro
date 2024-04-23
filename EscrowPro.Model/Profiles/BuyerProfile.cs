@@ -5,13 +5,13 @@ using System;
 
 namespace EscrowPro.Core.Profiles
 {
-    public class BuyerProfile:Profile
+   public class BuyerProfile:Profile
     {
         public BuyerProfile()
         {
-            CreateMap<Buyer,BuyerReadDto>();
-            CreateMap<BuyerCreateDto, Buyer>();
-            CreateMap<BuyerUpdateDto,Buyer>();
+            CreateMap<Buyer,ReadBuyerDto>();
+            CreateMap<CreateBuyerDto, Buyer>();
+            CreateMap<UpdateBuyerDto,Buyer>();
         }
     }
 }

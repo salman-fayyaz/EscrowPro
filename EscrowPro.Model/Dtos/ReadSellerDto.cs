@@ -1,10 +1,13 @@
 ﻿using EscrowPro.Core.Models;
-using EscrowPro.Core.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace EscrowPro.Core.Dtos
 {
-    public class BuyerReadDto
+    public class ReadSellerDto
     {
         public int Id { get; set; }
 

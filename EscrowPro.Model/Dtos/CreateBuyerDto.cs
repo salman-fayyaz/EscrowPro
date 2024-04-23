@@ -1,18 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EscrowPro.Core.Models
+namespace EscrowPro.Core.Dtos
 {
-    public class Seller
+    public class CreateBuyerDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
         [MaxLength(25)]
-        [Display(Name = "Seller Name")]
+        [Display(Name = "Buyer Name")]
         public string Name { get; set; }
 
         [Required]
@@ -25,7 +21,7 @@ namespace EscrowPro.Core.Models
         public string Password { get; set; }
 
         [Required]
-        [Compare("Password", ErrorMessage = "Password and Confirmation Password must match..")]
+        [Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
@@ -38,8 +34,5 @@ namespace EscrowPro.Core.Models
 
         public DateTime RegistrationDate { get; set; }
 
-        public  ICollection<Transaction> Transactions { get; set; }
-
-        public ICollection<Product> Products {  get; set; }
     }
 }
