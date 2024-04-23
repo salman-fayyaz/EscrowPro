@@ -2,6 +2,7 @@
 using EscrowPro.Core.Models;
 using EscrowPro.Core.ServicesInterfaces;
 using EscrowPro.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace EscrowPro.Service.Services
@@ -43,9 +44,23 @@ namespace EscrowPro.Service.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ReadSellerDto>> GetAllSellersAsync()
+        public async Task<IEnumerable<ReadSellerDto>> GetAllSellersAsync()
         {
-            throw new NotImplementedException();
+            var sellersList = new List<ReadSellerDto>();
+            var allSellers = await _context.Sellers.ToListAsync();
+            foreach(var seller in allSellers)
+            {
+                var sellerDto = new ReadSellerDto
+                {
+                    Id=seller.Id,
+                    Name=seller.Name,
+                    Email=seller.Email,
+                    Phone=seller.Phone,
+                    CNIC=seller.CNIC,
+                };
+                sellersList.Add(sellerDto);
+            }
+            return sellersList;
         }
 
         public Task<List<ReadSellerDto>> GetSellerByIdAsync(int id)
