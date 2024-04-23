@@ -160,6 +160,37 @@ namespace ServicesTests
             Assert.That(seller.Phone, Is.EqualTo(result[0].Phone));
         }
 
+        [Test]
+        public async Task UpdateSeller_whenPassingIdFound_ReturnsUpdatedSeller()
+        {
+            var seller = new CreateSellerDto()
+            {
+                Name = "Salman",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
+            };
+            await _sellerServices.CreateSellerAsync(seller);
+            var updateSeller = new UpdateSellerDto
+            {
+                Name = "xyz",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
+            };
+            var result = await _sellerServices.UpdateSellerAsync(1, updateSeller);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Any(b => b.Name == "xyz"));
+            Assert.That(result.Any(b => b.Email == "sfayyaz7c@gmail.com"));
+            Assert.That(result.Any(b => b.Password == "password123"));
+            Assert.That(result.Any(b => b.ConfirmPassword == "password123"));
+            Assert.That(result.Any(b => b.Phone == "0321-7553432"));
+            Assert.That(result.Any(b => b.CNIC == "12345-6789012-3"));
+        }
 
     }
 }
