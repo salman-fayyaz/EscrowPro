@@ -100,9 +100,32 @@ namespace EscrowPro.Service.Services
             return sellerList;
         }
 
-        public Task<List<UpdateSellerDto>> UpdateSellerAsync(int id, UpdateSellerDto buyerSellerDto)
+        public async Task<List<UpdateSellerDto>> UpdateSellerAsync(int id, UpdateSellerDto updateSellerDto)
         {
-            throw new NotImplementedException();
+            var updatedSellerList = new List<UpdateSellerDto>();
+            var updateSeller = await _context.Sellers.FindAsync(id);
+            if (updateSeller == null)
+            {
+                return null;
+            }
+            updateSeller.Id = id;
+            updateSeller.Name = updateSellerDto.Name;
+            updateSeller.Email = updateSellerDto.Email;
+            updateSeller.Password = updateSellerDto.Password;
+            updateSeller.ConfirmPassword = updateSellerDto.ConfirmPassword;
+            updateSeller.Phone = updateSellerDto.Phone;
+            updateSeller.CNIC = updateSellerDto.CNIC;
+            var updatedSeller = new UpdateSellerDto
+            {
+                Name = updateSeller.Name,
+                Email = updateSeller.Email,
+                Phone = updateSeller.Phone,
+                CNIC = updateSeller.CNIC,
+                Password = updateSeller.Password,
+                ConfirmPassword = updateSeller.ConfirmPassword,
+            };
+            updatedSellerList.Add(updatedSeller);
+            return updatedSellerList;
         }
     }
 }
