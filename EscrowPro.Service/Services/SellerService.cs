@@ -127,5 +127,6 @@ namespace EscrowPro.Service.Services
             updatedSellerList.Add(updatedSeller);
             return updatedSellerList;
         }
+
     }
 }
