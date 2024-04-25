@@ -28,7 +28,13 @@ namespace EscrowPro.Core.Models
 
         public Transaction Transaction { get; set; }
 
+        [Required(ErrorMessage ="Buyer ID is required")]
+        public int BuyerId { get; set; }
+
         public Buyer Buyer { get; set; }
+
+        [Required(ErrorMessage ="Seller ID is required")]
+        public int SellerId { get;set; }
 
         public Seller Seller { get; set; }
 
