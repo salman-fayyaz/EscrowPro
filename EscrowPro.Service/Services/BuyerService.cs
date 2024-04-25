@@ -34,8 +34,7 @@ namespace EscrowPro.Service.Services
                 ConfirmPassword = buyerCreateDto.ConfirmPassword,
                 Phone = buyerCreateDto.Phone,
                 CNIC = buyerCreateDto.CNIC,
-                RegistrationDate=DateTime.Now
-                
+                RegistrationDate=DateTime.Now    
             };
 
             await _context.Buyers.AddAsync(newBuyer);
