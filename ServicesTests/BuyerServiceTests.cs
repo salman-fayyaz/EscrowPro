@@ -162,7 +162,7 @@ namespace ServicesTests
         }
 
         [Test]
-        public async Task UpdateBuyer_whenPassingIdNotFound_ReturnsNull()
+        public async Task UpdateBuyer_whenPassingIdFound_ReturnsUpdatedBuyer()
         {
             var buyer = new CreateBuyerDto()
             {
