@@ -130,13 +130,21 @@ namespace EscrowPro.Service.Services
 
         public async Task SellProductAsync(int sellerId, CreateProductDto createProductDto)
         {
+            string newToken;
+            bool CheckTokenExists;
             var seller = await _context.Sellers.FindAsync(sellerId);
             if (seller == null)
             {
                 throw new InvalidOperationException("Seller not found.");
             }
+            do
+            {
+                newToken = Guid.NewGuid().ToString();
+                CheckTokenExists = await _context.Products.AnyAsync(p => p.Token == newToken);
+            } while (CheckTokenExists);
             var sellProduct = new Product
             {
+                Token=newToken,
                 SellerId=sellerId,
                 Name=createProductDto.Name,
                 Description=createProductDto.Description,
