@@ -38,5 +38,7 @@ namespace EscrowPro.Core.Models
 
         public Seller Seller { get; set; }
 
+        public string Token { get; set; }
+
     }
 }
