@@ -2,6 +2,7 @@
 using EscrowPro.Core.Models;
 using EscrowPro.Core.ServicesInterfaces;
 using EscrowPro.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace EscrowPro.Service.Services
@@ -38,24 +39,94 @@ namespace EscrowPro.Service.Services
 
         }
 
-        public Task<List<ReadSellerDto>> DeleteSellerAsync(int id)
+        public async Task<List<ReadSellerDto>> DeleteSellerAsync(int id)
         {
-            throw new NotImplementedException();
+            var deleteSeller = new List<ReadSellerDto>();
+            var existId = await _context.Sellers.FindAsync(id);
+            if (existId == null)
+            {
+                return null;
+            }
+            _context.Sellers.Remove(existId);
+            await _context.SaveChangesAsync();
+            var existSeller = new ReadSellerDto
+            {
+                Id = existId.Id,
+                Name = existId.Name,
+                Email = existId.Email,
+                CNIC = existId.CNIC,
+                Phone = existId.Phone,
+            };
+            deleteSeller.Add(existSeller);
+            return deleteSeller;
         }
 
-        public Task<IEnumerable<ReadSellerDto>> GetAllSellersAsync()
+        public async Task<IEnumerable<ReadSellerDto>> GetAllSellersAsync()
         {
-            throw new NotImplementedException();
+            var sellersList = new List<ReadSellerDto>();
+            var allSellers = await _context.Sellers.ToListAsync();
+            foreach(var seller in allSellers)
+            {
+                var sellerDto = new ReadSellerDto
+                {
+                    Id=seller.Id,
+                    Name=seller.Name,
+                    Email=seller.Email,
+                    Phone=seller.Phone,
+                    CNIC=seller.CNIC,
+                };
+                sellersList.Add(sellerDto);
+            }
+            return sellersList;
         }
 
-        public Task<List<ReadSellerDto>> GetSellerByIdAsync(int id)
+        public async Task<List<ReadSellerDto>> GetSellerByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var sellerList = new List<ReadSellerDto>();
+            var foundSeller = await _context.Sellers.FindAsync(id);
+            if(foundSeller==null)
+            {
+                return null;
+            }
+            var sellerDto = new ReadSellerDto
+            {
+                Id=foundSeller.Id,
+                Name= foundSeller.Name,
+                Email= foundSeller.Email,
+                Phone=foundSeller.Phone,
+                CNIC=foundSeller.CNIC
+            };
+            sellerList.Add(sellerDto);
+            return sellerList;
         }
 
-        public Task<List<UpdateSellerDto>> UpdateSellerAsync(int id, UpdateSellerDto buyerSellerDto)
+        public async Task<List<UpdateSellerDto>> UpdateSellerAsync(int id, UpdateSellerDto updateSellerDto)
         {
-            throw new NotImplementedException();
+            var updatedSellerList = new List<UpdateSellerDto>();
+            var updateSeller = await _context.Sellers.FindAsync(id);
+            if (updateSeller == null)
+            {
+                return null;
+            }
+            updateSeller.Id = id;
+            updateSeller.Name = updateSellerDto.Name;
+            updateSeller.Email = updateSellerDto.Email;
+            updateSeller.Password = updateSellerDto.Password;
+            updateSeller.ConfirmPassword = updateSellerDto.ConfirmPassword;
+            updateSeller.Phone = updateSellerDto.Phone;
+            updateSeller.CNIC = updateSellerDto.CNIC;
+            var updatedSeller = new UpdateSellerDto
+            {
+                Name = updateSeller.Name,
+                Email = updateSeller.Email,
+                Phone = updateSeller.Phone,
+                CNIC = updateSeller.CNIC,
+                Password = updateSeller.Password,
+                ConfirmPassword = updateSeller.ConfirmPassword,
+            };
+            updatedSellerList.Add(updatedSeller);
+            return updatedSellerList;
         }
+
     }
 }
