@@ -146,6 +146,5 @@ namespace EscrowPro.Service.Services
             _context.Products.Add(sellProduct);
             await _context.SaveChangesAsync();
         }
-
     }
 }
