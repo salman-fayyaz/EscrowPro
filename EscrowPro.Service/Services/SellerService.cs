@@ -128,5 +128,24 @@ namespace EscrowPro.Service.Services
             return updatedSellerList;
         }
 
+        public async Task SellProductAsync(int sellerId, CreateProductDto createProductDto)
+        {
+            var seller = await _context.Sellers.FindAsync(sellerId);
+            if (seller == null)
+            {
+                throw new InvalidOperationException("Seller not found.");
+            }
+            var sellProduct = new Product
+            {
+                SellerId=sellerId,
+                Name=createProductDto.Name,
+                Description=createProductDto.Description,
+                Price=createProductDto.Price,
+                Quantity=createProductDto.Quantity,
+            };
+            _context.Products.Add(sellProduct);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

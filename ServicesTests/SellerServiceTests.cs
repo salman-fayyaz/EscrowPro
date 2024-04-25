@@ -192,5 +192,54 @@ namespace ServicesTests
             Assert.That(result.Any(b => b.CNIC == "12345-6789012-3"));
         }
 
+        [Test]
+        public async Task SellProductAsync_IfSellerIdNotFound_ThrowsInvalidOperationsExceptions()
+        {
+            var seller = new CreateSellerDto
+            {
+                //here id=1 Self Generated ID in memory database due to auto generated validation 
+                Name = "xyz",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
+            };
+            var product = new CreateProductDto
+            {
+                Name="Laptop",
+                Price=25000,
+                Description="qwertti good bad both",
+                Quantity=1,
+            };
+            await _sellerServices.CreateSellerAsync(seller);
+            //here i will pass 2 for checking,  as i know 1 is availbe and 2 is  not
+            Assert.ThrowsAsync<InvalidOperationException>(() => _sellerServices.SellProductAsync(2,product));
+        }
+
+        [Test]
+        public async Task SellProductAsync_IfSellerFound_ProductIsAdded()
+        {
+            var seller = new CreateSellerDto
+            {
+                Name = "xyz",
+                Email = "sfayyaz7c@gmail.com",
+                Password = "password123",
+                ConfirmPassword = "password123",
+                Phone = "0321-7553432",
+                CNIC = "12345-6789012-3"
+            };
+            var product = new CreateProductDto
+            {
+                Name = "Laptop",
+                Price = 25000,
+                Description = "qwertti good bad both",
+                Quantity = 1,
+            };
+            await _sellerServices.CreateSellerAsync(seller);
+            Assert.DoesNotThrowAsync(()=> _sellerServices.SellProductAsync(1, product));
+
+        }
+        
     }
 }
