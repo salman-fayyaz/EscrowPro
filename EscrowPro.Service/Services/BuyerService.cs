@@ -34,8 +34,7 @@ namespace EscrowPro.Service.Services
                 ConfirmPassword = buyerCreateDto.ConfirmPassword,
                 Phone = buyerCreateDto.Phone,
                 CNIC = buyerCreateDto.CNIC,
-                RegistrationDate=DateTime.Now
-                
+                RegistrationDate=DateTime.Now    
             };
 
             await _context.Buyers.AddAsync(newBuyer);
@@ -132,5 +131,26 @@ namespace EscrowPro.Service.Services
             updatedbuyerList.Add(updatedBuyer);
             return updatedbuyerList;
         }
+
+        public async Task BuyProductAsync(int buyerId, string sellerToken)
+        {
+            var buyer = await _context.Buyers.FindAsync(buyerId);
+            if (buyer == null)
+            {
+                throw new InvalidOperationException("Buyer is not found");
+            }
+            var seller = await _context.Products.FindAsync(sellerToken);
+            if(seller!=null)
+            {
+                seller.BuyerId = buyerId;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Seller Does not Exist !");
+            }
+        }
+
+
     }
 }
