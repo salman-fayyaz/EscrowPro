@@ -21,32 +21,14 @@ namespace EscrowPro.Controllers
         [HttpPost]
         public async Task<ActionResult<ReadBuyerDto>> CreateBuyerAsync(CreateBuyerDto createBuyerDto)
         {
-            var newBuyer = new CreateBuyerDto
-            {
-                Name = createBuyerDto.Name,
-                Email = createBuyerDto.Email,
-                Password = createBuyerDto.Password,
-                ConfirmPassword = createBuyerDto.ConfirmPassword,
-                CNIC = createBuyerDto.CNIC,
-                Phone = createBuyerDto.Phone,
-                RegistrationDate = DateTime.Now,
-            };
-
-            var readNewBuyerDto = new ReadBuyerDto
-            {
-                Name=newBuyer.Name,
-                Email=newBuyer.Email,
-                CNIC=newBuyer.CNIC,
-                Phone = newBuyer.Phone
-            };
-            await _buyerServices.CreateBuyerAsync(newBuyer);
-            return Ok(readNewBuyerDto);
+            await _buyerServices.CreateBuyerAsync(createBuyerDto);
+            return Ok();
         }
 
         [HttpGet]
         public async Task<ActionResult<ReadBuyerDto>> GetAllBuyersAsync()
         {
-            var buyers=await _buyerServices.GetAllBuyersAsync();
+            var buyers = await _buyerServices.GetAllBuyersAsync();
             return Ok(buyers);
         }
 
@@ -59,6 +41,28 @@ namespace EscrowPro.Controllers
                 return NotFound();
             }
             return Ok(buyer);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ReadBuyerDto>> DeleteBuyerAsync(int id)
+        {
+            var deleteBuyer = await _buyerServices.DeleteBuyerAsync(id);
+            if (deleteBuyer == null)
+            {
+                return NotFound();
+            }
+            return Ok(deleteBuyer);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ReadBuyerDto>> UpdateBuyerAsync(int id, UpdateBuyerDto updateBuyerDto)
+        {
+            var updatedBuyer=await _buyerServices.UpdateBuyerAsync(id, updateBuyerDto);
+            if(updatedBuyer == null)
+            {
+                return NotFound($"Employee with Id = {id} not found");
+            }
+            return Ok(updatedBuyer);
         }
     }
 }

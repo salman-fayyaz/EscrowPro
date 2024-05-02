@@ -1,4 +1,5 @@
 ﻿using EscrowPro.Core.Dtos;
+using EscrowPro.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,16 @@ namespace EscrowPro.Core.ServicesInterfaces
 {
     public interface ISellerService
     {
-        Task<CreateSellerDto> CreateSellerAsync(CreateSellerDto CreateSellerDto);
+        Task CreateSellerAsync(CreateSellerDto createSellerDto);
 
         Task<IEnumerable<ReadSellerDto>> GetAllSellersAsync();
 
-        Task<List<ReadSellerDto>> GetSellerByIdAsync(int id);
+        Task<ReadSellerDto> GetSellerByIdAsync(int id);
 
-        Task<List<UpdateSellerDto>> UpdateSellerAsync(int id, UpdateSellerDto buyerSellerDto);
+        Task<UpdateSellerDto> UpdateSellerAsync(int id, UpdateSellerDto updatesellerDto);
 
-        Task<List<ReadSellerDto>> DeleteSellerAsync(int id);
+        Task<ReadSellerDto> DeleteSellerAsync(int id);
+
+        Task SellProductAsync(Product product);
     }
 }
