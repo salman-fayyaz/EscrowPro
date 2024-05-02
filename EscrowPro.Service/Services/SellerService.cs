@@ -1,158 +1,85 @@
-﻿using EscrowPro.Core.Dtos;
+﻿using AutoMapper;
+using EscrowPro.Core.Dtos;
 using EscrowPro.Core.Models;
+using EscrowPro.Core.Repositories.DbInterfaces;
 using EscrowPro.Core.ServicesInterfaces;
 using EscrowPro.Infrastructure.Data;
+using EscrowPro.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics.Metrics;
 
 namespace EscrowPro.Service.Services
 {
     public class SellerService : ISellerService
     {
-        private readonly EscrowProContext _context;
+        private readonly ISellerRepository _sellerRepository;
 
-        public SellerService(){}
+        private readonly IMapper _mapper;
 
-        public SellerService(EscrowProContext escrowProContext)
+        public SellerService(ISellerRepository sellerRepository, IMapper mapper)
         {
-            _context= escrowProContext;
+            _sellerRepository = sellerRepository;
+            _mapper = mapper;
         }
-        public async Task<CreateSellerDto> CreateSellerAsync(CreateSellerDto CreateSellerDto)
+
+        public async Task CreateSellerAsync(CreateSellerDto createSellerDto)
         {
-            if (CreateSellerDto == null)
+            if (createSellerDto == null)
+            {
+                throw new ArgumentNullException(null);
+            }
+            var seller = _mapper.Map<Seller>(createSellerDto);
+            await _sellerRepository.CreateSellerAsync(seller);
+        }
+
+        public async Task<ReadSellerDto> DeleteSellerAsync(int id)
+        {
+            if (id == null || id <= 0)
+            {
+                throw new ArgumentNullException("id");
+            }
+            var seller = await _sellerRepository.DeleteSellerAsync(id);
+            if (seller == null)
             {
                 return null;
             }
-            var newSeller = new Seller
-            {
-                Name=CreateSellerDto.Name,
-                Email=CreateSellerDto.Email,
-                Password=CreateSellerDto.Password,
-                ConfirmPassword=CreateSellerDto.ConfirmPassword,
-                CNIC=CreateSellerDto.CNIC,
-                Phone= CreateSellerDto.Phone,
-                RegistrationDate=DateTime.Now
-            };
-            await _context.Sellers.AddAsync(newSeller);
-            await _context.SaveChangesAsync();
-            return CreateSellerDto;
-
-        }
-
-        public async Task<List<ReadSellerDto>> DeleteSellerAsync(int id)
-        {
-            var deleteSeller = new List<ReadSellerDto>();
-            var existId = await _context.Sellers.FindAsync(id);
-            if (existId == null)
-            {
-                return null;
-            }
-            _context.Sellers.Remove(existId);
-            await _context.SaveChangesAsync();
-            var existSeller = new ReadSellerDto
-            {
-                Id = existId.Id,
-                Name = existId.Name,
-                Email = existId.Email,
-                CNIC = existId.CNIC,
-                Phone = existId.Phone,
-            };
-            deleteSeller.Add(existSeller);
-            return deleteSeller;
+            return _mapper.Map<ReadSellerDto>(seller);
         }
 
         public async Task<IEnumerable<ReadSellerDto>> GetAllSellersAsync()
-        {
-            var sellersList = new List<ReadSellerDto>();
-            var allSellers = await _context.Sellers.ToListAsync();
-            foreach(var seller in allSellers)
-            {
-                var sellerDto = new ReadSellerDto
-                {
-                    Id=seller.Id,
-                    Name=seller.Name,
-                    Email=seller.Email,
-                    Phone=seller.Phone,
-                    CNIC=seller.CNIC,
-                };
-                sellersList.Add(sellerDto);
-            }
-            return sellersList;
+        { 
+            var allSellers = await _sellerRepository.GetAllSellerAsync();
+            var sellers = _mapper.Map<List<ReadSellerDto>>(allSellers);
+            return sellers;
         }
 
-        public async Task<List<ReadSellerDto>> GetSellerByIdAsync(int id)
+        public async Task<ReadSellerDto> GetSellerByIdAsync(int id)
         {
-            var sellerList = new List<ReadSellerDto>();
-            var foundSeller = await _context.Sellers.FindAsync(id);
-            if(foundSeller==null)
+            if (id == null || id <= 0)
             {
-                return null;
+                throw new ArgumentNullException("id");
             }
-            var sellerDto = new ReadSellerDto
-            {
-                Id=foundSeller.Id,
-                Name= foundSeller.Name,
-                Email= foundSeller.Email,
-                Phone=foundSeller.Phone,
-                CNIC=foundSeller.CNIC
-            };
-            sellerList.Add(sellerDto);
-            return sellerList;
+            var existSeller = await _sellerRepository.GetSellerByIdAsync(id);
+            var foundSeller = _mapper.Map<ReadSellerDto>(existSeller);
+            return foundSeller;
         }
 
-        public async Task<List<UpdateSellerDto>> UpdateSellerAsync(int id, UpdateSellerDto updateSellerDto)
+        public async Task<UpdateSellerDto> UpdateSellerAsync(int id, UpdateSellerDto updatesellerDto)
         {
-            var updatedSellerList = new List<UpdateSellerDto>();
-            var updateSeller = await _context.Sellers.FindAsync(id);
-            if (updateSeller == null)
+            if (id == null || id <= 0)
             {
-                return null;
+                throw new ArgumentNullException("id");
             }
-            updateSeller.Id = id;
-            updateSeller.Name = updateSellerDto.Name;
-            updateSeller.Email = updateSellerDto.Email;
-            updateSeller.Password = updateSellerDto.Password;
-            updateSeller.ConfirmPassword = updateSellerDto.ConfirmPassword;
-            updateSeller.Phone = updateSellerDto.Phone;
-            updateSeller.CNIC = updateSellerDto.CNIC;
-            var updatedSeller = new UpdateSellerDto
-            {
-                Name = updateSeller.Name,
-                Email = updateSeller.Email,
-                Phone = updateSeller.Phone,
-                CNIC = updateSeller.CNIC,
-                Password = updateSeller.Password,
-                ConfirmPassword = updateSeller.ConfirmPassword,
-            };
-            updatedSellerList.Add(updatedSeller);
-            return updatedSellerList;
+            var sellerModel = _mapper.Map<Seller>(updatesellerDto);
+            var seller = _sellerRepository.UpdateSellerAsync(id, sellerModel);
+            var sellerDto = _mapper.Map<UpdateSellerDto>(seller);
+            return sellerDto;
         }
 
-        public async Task SellProductAsync(int sellerId, CreateProductDto createProductDto)
+        public async Task SellProductAsync(Product product)
         {
-            string newToken;
-            bool CheckTokenExists;
-            var seller = await _context.Sellers.FindAsync(sellerId);
-            if (seller == null)
-            {
-                throw new InvalidOperationException("Seller not found.");
-            }
-            do
-            {
-                newToken = Guid.NewGuid().ToString();
-                CheckTokenExists = await _context.Products.AnyAsync(p => p.Token == newToken);
-            } while (CheckTokenExists);
-            var sellProduct = new Product
-            {
-                Token=newToken,
-                SellerId=sellerId,
-                Name=createProductDto.Name,
-                Description=createProductDto.Description,
-                Price=createProductDto.Price,
-                Quantity=createProductDto.Quantity,
-            };
-            _context.Products.Add(sellProduct);
-            await _context.SaveChangesAsync();
+
         }
     }
 }
