@@ -20,5 +20,11 @@ namespace EscrowPro.Core.Dtos
         [Required(ErrorMessage = "Quantity is required")]
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a positive value")]
         public int Quantity { get; set; }
+
+        public string Token { get; set; }
+
+        public UpdateBuyerDto UpdateBuyer { get; set; }
+
+        public UpdateSellerDto UpdateSeller { get;set; }
     }
 }
