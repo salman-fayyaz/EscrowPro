@@ -18,8 +18,4 @@
     <PackageReference Include="Moq.EntityFrameworkCore" Version="8.0.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\DbInterfaces\" />
-  </ItemGroup>
-
 </Project>

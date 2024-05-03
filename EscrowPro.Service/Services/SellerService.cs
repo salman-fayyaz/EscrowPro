@@ -1,61 +1,111 @@
-﻿using EscrowPro.Core.Dtos;
+﻿using AutoMapper;
+using EscrowPro.Core.Dtos;
 using EscrowPro.Core.Models;
+using EscrowPro.Core.Repositories.DbInterfaces;
 using EscrowPro.Core.ServicesInterfaces;
 using EscrowPro.Infrastructure.Data;
+using EscrowPro.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics.Metrics;
 
 namespace EscrowPro.Service.Services
 {
     public class SellerService : ISellerService
     {
-        private readonly EscrowProContext _context;
+        private readonly ISellerRepository _sellerRepository;
 
-        public SellerService(){}
+        private readonly IMapper _mapper;
 
-        public SellerService(EscrowProContext escrowProContext)
+        public SellerService(ISellerRepository sellerRepository, IMapper mapper)
         {
-            _context= escrowProContext;
+            _sellerRepository = sellerRepository;
+            _mapper = mapper;
         }
-        public async Task<CreateSellerDto> CreateSellerAsync(CreateSellerDto CreateSellerDto)
+
+        public async Task CreateSellerAsync(CreateSellerDto createSellerDto)
         {
-            if (CreateSellerDto == null)
+            if (createSellerDto == null)
+            {
+                throw new ArgumentNullException(null);
+            }
+            var seller = _mapper.Map<Seller>(createSellerDto);
+            await _sellerRepository.CreateSellerAsync(seller);
+        }
+
+        public async Task<ReadSellerDto> DeleteSellerAsync(int id)
+        {
+            if (id == null || id <= 0)
+            {
+                throw new ArgumentNullException("id");
+            }
+            var seller = await _sellerRepository.DeleteSellerAsync(id);
+            if (seller == null)
             {
                 return null;
             }
-            var newSeller = new Seller
+            return _mapper.Map<ReadSellerDto>(seller);
+        }
+
+        public async Task<IEnumerable<ReadSellerDto>> GetAllSellersAsync()
+        { 
+            var allSellers = await _sellerRepository.GetAllSellerAsync();
+            var sellers = _mapper.Map<List<ReadSellerDto>>(allSellers);
+            return sellers;
+        }
+
+        public async Task<ReadSellerDto> GetSellerByIdAsync(int id)
+        {
+            if (id == null || id <= 0)
             {
-                Name=CreateSellerDto.Name,
-                Email=CreateSellerDto.Email,
-                Password=CreateSellerDto.Password,
-                ConfirmPassword=CreateSellerDto.ConfirmPassword,
-                CNIC=CreateSellerDto.CNIC,
-                Phone= CreateSellerDto.Phone,
-                RegistrationDate=DateTime.Now
-            };
-            await _context.Sellers.AddAsync(newSeller);
-            await _context.SaveChangesAsync();
-            return CreateSellerDto;
-
+                throw new ArgumentNullException("id");
+            }
+            var existSeller = await _sellerRepository.GetSellerByIdAsync(id);
+            var foundSeller = _mapper.Map<ReadSellerDto>(existSeller);
+            return foundSeller;
         }
 
-        public Task<List<ReadSellerDto>> DeleteSellerAsync(int id)
+        public async Task<UpdateSellerDto> UpdateSellerAsync(int id, UpdateSellerDto updatesellerDto)
         {
-            throw new NotImplementedException();
+            if (id == null || id <= 0)
+            {
+                throw new ArgumentNullException("id");
+            }
+            var sellerModel = _mapper.Map<Seller>(updatesellerDto);
+            var seller = _sellerRepository.UpdateSellerAsync(id, sellerModel);
+            var sellerDto = _mapper.Map<UpdateSellerDto>(seller);
+            return sellerDto;
         }
 
-        public Task<IEnumerable<ReadSellerDto>> GetAllSellersAsync()
+        public async Task<ReadSellerDto> VerifySellerExistanceAsync(int sellerId)
         {
-            throw new NotImplementedException();
+            var seller = _sellerRepository.GetSellerByIdAsync(sellerId);
+            if (seller == null)
+            {
+                return null;
+            }
+            else
+            {
+                var sellerDto = _mapper.Map<ReadSellerDto>(seller);
+                return sellerDto;
+            }
         }
 
-        public Task<List<ReadSellerDto>> GetSellerByIdAsync(int id)
+        public async Task<string> GenerateTokenAsync()
         {
-            throw new NotImplementedException();
+            var generatedToken = Guid.NewGuid().ToString();
+            var newToken=await _sellerRepository.VerifyTokenExist(generatedToken);
+            return newToken;
         }
 
-        public Task<List<UpdateSellerDto>> UpdateSellerAsync(int id, UpdateSellerDto buyerSellerDto)
+        public async Task SellProductAsync(ReadSellerDto readSellerDto,ReadProductDto readProductDto)
         {
-            throw new NotImplementedException();
+            var verifySeller = await VerifySellerExistanceAsync(readSellerDto.Id);
+            if (verifySeller == null)
+            {
+                throw new ArgumentNullException("Seller is not verified");
+            }
+            var token = await GenerateTokenAsync();
         }
     }
 }
