@@ -22,9 +22,5 @@ namespace EscrowPro.Core.Dtos
         public int Quantity { get; set; }
 
         public string Token { get; set; }
-
-        public UpdateBuyerDto UpdateBuyer { get; set; }
-
-        public UpdateSellerDto UpdateSeller { get;set; }
     }
 }

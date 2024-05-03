@@ -37,6 +37,5 @@ namespace EscrowPro.Core.Models
         public int StatusId { get; set; }
 
         public Status Status { get; set; }
-
     }
 }

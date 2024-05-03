@@ -106,28 +106,6 @@ namespace EscrowPro.Service.Services
                 throw new ArgumentNullException("Seller is not verified");
             }
             var token = await GenerateTokenAsync();
-            var product = new Product
-            {
-                SellerId=verifySeller.Id,
-                Name=readProductDto.Name,
-                Description=readProductDto.Description,
-                Price=readProductDto.Price,
-                Quantity= readProductDto.Quantity,
-                Token=token,
-                
-            };
-            var transaction = new Transaction
-            {
-                //buyerId
-                SellerId = product.SellerId,
-                ProductId = product.Id,
-                StartDate = DateTime.Now,
-                //CompletionDate
-                Amount = product.Price * product.Quantity,
-            };
-            product.Transaction = transaction;
-            transaction.Product=product;
-            
         }
     }
 }

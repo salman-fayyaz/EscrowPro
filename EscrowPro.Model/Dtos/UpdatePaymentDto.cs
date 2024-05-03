@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EscrowPro.Core.Dtos
 {
-    internal class UpdatePaymentDto
+    public class UpdatePaymentDto
     {
+        public String PaymentMethod { get; set; }
     }
 }

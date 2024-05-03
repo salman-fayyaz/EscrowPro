@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace EscrowPro.Core.Dtos
 {
-    internal class ReadDisputeDto
+    public class ReadDisputeDto
     {
+        public string Cause { get; set; }
     }
 }
