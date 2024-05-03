@@ -1,4 +1,5 @@
-﻿using EscrowPro.Core.Models;
+﻿using EscrowPro.Core.Dtos;
+using EscrowPro.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,8 @@ namespace EscrowPro.Core.Repositories.DbInterfaces
         Task<Seller> UpdateSellerAsync(int id, Seller seller);
 
         Task<Seller> DeleteSellerAsync(int id);
+
+        Task<string> VerifyTokenExist(string token);
+
     }
 }

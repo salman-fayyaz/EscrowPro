@@ -77,9 +77,57 @@ namespace EscrowPro.Service.Services
             return sellerDto;
         }
 
-        public async Task SellProductAsync(Product product)
+        public async Task<ReadSellerDto> VerifySellerExistanceAsync(int sellerId)
         {
+            var seller = _sellerRepository.GetSellerByIdAsync(sellerId);
+            if (seller == null)
+            {
+                return null;
+            }
+            else
+            {
+                var sellerDto = _mapper.Map<ReadSellerDto>(seller);
+                return sellerDto;
+            }
+        }
 
+        public async Task<string> GenerateTokenAsync()
+        {
+            var generatedToken = Guid.NewGuid().ToString();
+            var newToken=await _sellerRepository.VerifyTokenExist(generatedToken);
+            return newToken;
+        }
+
+        public async Task SellProductAsync(ReadSellerDto readSellerDto,ReadProductDto readProductDto)
+        {
+            var verifySeller = await VerifySellerExistanceAsync(readSellerDto.Id);
+            if (verifySeller == null)
+            {
+                throw new ArgumentNullException("Seller is not verified");
+            }
+            var token = await GenerateTokenAsync();
+            var product = new Product
+            {
+                SellerId=verifySeller.Id,
+                Name=readProductDto.Name,
+                Description=readProductDto.Description,
+                Price=readProductDto.Price,
+                Quantity= readProductDto.Quantity,
+                Token=token,
+                
+            };
+            var transaction = new Transaction
+            {
+                //buyerId
+                SellerId = product.SellerId,
+                ProductId = product.Id,
+                StartDate = DateTime.Now,
+                //CompletionDate
+                Amount = product.Price * product.Quantity,
+            };
+            product.Transaction = transaction;
+            transaction.Product=product;
+            
         }
     }
 }
