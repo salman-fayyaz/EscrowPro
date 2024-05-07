@@ -10,10 +10,6 @@ namespace EscrowPro.Core.Dtos
 {
     public class CreateDisputeDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         public string Cause { get; set; }
     }
 }

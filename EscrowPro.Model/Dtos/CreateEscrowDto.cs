@@ -10,10 +10,6 @@ namespace EscrowPro.Core.Dtos
 {
     public class CreateEscrowDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         public DateTime FundedDate { get; set; }
 
         public DateTime ReleaseDate { get; set; }

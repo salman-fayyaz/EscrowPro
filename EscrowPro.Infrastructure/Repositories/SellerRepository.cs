@@ -26,6 +26,7 @@ namespace EscrowPro.Infrastructure.Repositories
             _context = escrowProContext;
             _mapper = mapper;
         }
+
         public async Task CreateSellerAsync(Seller seller)
         {
             await _context.Sellers.AddAsync(seller);
@@ -70,26 +71,6 @@ namespace EscrowPro.Infrastructure.Repositories
             existSeller.CNIC = seller.CNIC;
             await _context.SaveChangesAsync();
             return existSeller;
-        }
-
-        public async Task<string> VerifyTokenExist(string token)
-        {
-            string newToken;
-            Product checkToken;
-            Product existToken = await _context.Products.FindAsync(token);
-            if(existToken== null)
-            {
-                newToken = Guid.NewGuid().ToString();
-            }
-            else
-            {
-                do
-                {
-                    newToken=Guid.NewGuid().ToString();
-                    checkToken = await _context.Products.FindAsync(newToken);
-                } while (checkToken != null);
-            }
-            return newToken;
         }
     }
 }

@@ -10,10 +10,6 @@ namespace EscrowPro.Core.Dtos
 {
     public class CreatePaymentDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         public String PaymentMethod { get; set; }
     }
 }

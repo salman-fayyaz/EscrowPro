@@ -81,26 +81,5 @@ namespace EscrowPro.Service.Services
             var buyerDto=_mapper.Map<UpdateBuyerDto>(buyer);
             return buyerDto;
         }
-
-        //public async Task BuyProductAsync(int buyerId, string sellerToken)
-        //{
-        //    var buyer = await _context.Buyers.FindAsync(buyerId);
-        //    if (buyer == null)
-        //    {
-        //        throw new InvalidOperationException("Buyer is not found");
-        //    }
-        //    var seller = await _context.Products.FindAsync(sellerToken);
-        //    if(seller!=null)
-        //    {
-        //        seller.BuyerId = buyerId;
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    else
-        //    {
-        //        throw new InvalidOperationException("Seller Does not Exist !");
-        //    }
-        //}
-
-
     }
 }

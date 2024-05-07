@@ -76,36 +76,5 @@ namespace EscrowPro.Service.Services
             var sellerDto = _mapper.Map<UpdateSellerDto>(seller);
             return sellerDto;
         }
-
-        public async Task<ReadSellerDto> VerifySellerExistanceAsync(int sellerId)
-        {
-            var seller = _sellerRepository.GetSellerByIdAsync(sellerId);
-            if (seller == null)
-            {
-                return null;
-            }
-            else
-            {
-                var sellerDto = _mapper.Map<ReadSellerDto>(seller);
-                return sellerDto;
-            }
-        }
-
-        public async Task<string> GenerateTokenAsync()
-        {
-            var generatedToken = Guid.NewGuid().ToString();
-            var newToken=await _sellerRepository.VerifyTokenExist(generatedToken);
-            return newToken;
-        }
-
-        public async Task SellProductAsync(ReadSellerDto readSellerDto,ReadProductDto readProductDto)
-        {
-            var verifySeller = await VerifySellerExistanceAsync(readSellerDto.Id);
-            if (verifySeller == null)
-            {
-                throw new ArgumentNullException("Seller is not verified");
-            }
-            var token = await GenerateTokenAsync();
-        }
     }
 }

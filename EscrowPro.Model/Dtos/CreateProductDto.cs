@@ -7,10 +7,6 @@ namespace EscrowPro.Core.Dtos
 {
     public class CreateProductDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Name is Required")]
         [MaxLength(50)]
         public string Name { get; set; }

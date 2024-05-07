@@ -19,8 +19,5 @@ namespace EscrowPro.Core.Repositories.DbInterfaces
         Task<Seller> UpdateSellerAsync(int id, Seller seller);
 
         Task<Seller> DeleteSellerAsync(int id);
-
-        Task<string> VerifyTokenExist(string token);
-
     }
 }

@@ -23,11 +23,6 @@ namespace EscrowPro.Infrastructure.Repositories
             _mapper = mapper;
         }
 
-        public Task BuyProductAsync(int buyerId, string sellerToken)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task CreateBuyerAsync(Buyer buyer)
         { 
             await _context.Buyers.AddAsync(buyer);

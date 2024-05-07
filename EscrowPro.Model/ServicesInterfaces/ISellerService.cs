@@ -20,10 +20,5 @@ namespace EscrowPro.Core.ServicesInterfaces
 
         Task<ReadSellerDto> DeleteSellerAsync(int id);
 
-        Task<string> GenerateTokenAsync();
-
-        Task<ReadSellerDto> VerifySellerExistanceAsync(int sellerId);
-
-        Task SellProductAsync(ReadSellerDto readSellerDto, ReadProductDto readProductDto);
     }
 }
