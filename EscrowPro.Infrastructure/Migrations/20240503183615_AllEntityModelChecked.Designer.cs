@@ -4,6 +4,7 @@ using EscrowPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EscrowPro.Infrastructure.Migrations
 {
     [DbContext(typeof(EscrowProContext))]
-    partial class EscrowProContextModelSnapshot : ModelSnapshot
+    [Migration("20240503183615_AllEntityModelChecked")]
+    partial class AllEntityModelChecked
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,68 +64,6 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Buyers");
-                });
-
-            modelBuilder.Entity("EscrowPro.Core.Models.BuyerForm", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Area")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BuyerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CompleteAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("House")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("IDCardImage")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("KYC")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Nationality")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("ProfilePicture")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("city")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BuyerId")
-                        .IsUnique();
-
-                    b.ToTable("BuyerForm");
                 });
 
             modelBuilder.Entity("EscrowPro.Core.Models.Dispute", b =>
@@ -286,68 +227,6 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.ToTable("Sellers");
                 });
 
-            modelBuilder.Entity("EscrowPro.Core.Models.SellerForm", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Area")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompleteAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("House")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("IDCardImage")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("KYC")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Nationality")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("ProfilePicture")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("city")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SellerId")
-                        .IsUnique();
-
-                    b.ToTable("SellerForm");
-                });
-
             modelBuilder.Entity("EscrowPro.Core.Models.Status", b =>
                 {
                     b.Property<int>("Id")
@@ -407,17 +286,6 @@ namespace EscrowPro.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("EscrowPro.Core.Models.BuyerForm", b =>
-                {
-                    b.HasOne("EscrowPro.Core.Models.Buyer", "buyer")
-                        .WithOne("BuyerForm")
-                        .HasForeignKey("EscrowPro.Core.Models.BuyerForm", "BuyerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("buyer");
                 });
 
             modelBuilder.Entity("EscrowPro.Core.Models.Dispute", b =>
@@ -480,17 +348,6 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.Navigation("Seller");
                 });
 
-            modelBuilder.Entity("EscrowPro.Core.Models.SellerForm", b =>
-                {
-                    b.HasOne("EscrowPro.Core.Models.Seller", "seller")
-                        .WithOne("seller")
-                        .HasForeignKey("EscrowPro.Core.Models.SellerForm", "SellerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("seller");
-                });
-
             modelBuilder.Entity("EscrowPro.Core.Models.Transaction", b =>
                 {
                     b.HasOne("EscrowPro.Core.Models.Buyer", "Buyer")
@@ -528,9 +385,6 @@ namespace EscrowPro.Infrastructure.Migrations
 
             modelBuilder.Entity("EscrowPro.Core.Models.Buyer", b =>
                 {
-                    b.Navigation("BuyerForm")
-                        .IsRequired();
-
                     b.Navigation("Products");
 
                     b.Navigation("Transactions");
@@ -547,9 +401,6 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("Transactions");
-
-                    b.Navigation("seller")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("EscrowPro.Core.Models.Status", b =>

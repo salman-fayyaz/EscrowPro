@@ -41,5 +41,7 @@ namespace EscrowPro.Core.Models
         public  ICollection<Transaction> Transactions { get; set; }
 
         public ICollection<Product> Products {  get; set; }
+
+        public SellerForm seller { get; set; }
     }
 }
