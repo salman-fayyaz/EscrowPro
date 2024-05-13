@@ -4,6 +4,7 @@ using EscrowPro.Core.Models;
 using EscrowPro.Core.ServicesInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace EscrowPro.Controllers
 {
@@ -19,7 +20,7 @@ namespace EscrowPro.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ReadBuyerDto>> CreateBuyerAsync(CreateBuyerDto createBuyerDto)
+        public async Task<ActionResult<ReadBuyerDto>> CreateBuyerAsync([FromBody]CreateBuyerDto createBuyerDto)
         {
             await _buyerServices.CreateBuyerAsync(createBuyerDto);
             return Ok();

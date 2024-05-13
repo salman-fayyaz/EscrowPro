@@ -24,8 +24,18 @@ namespace EscrowPro.Infrastructure.Repositories
         }
 
         public async Task CreateBuyerAsync(Buyer buyer)
-        { 
-            await _context.Buyers.AddAsync(buyer);
+        {
+            var newBuyer = new Buyer
+            {
+                Name=buyer.Name,
+                Email=buyer.Email,
+                Password=buyer.Password,
+                ConfirmPassword=buyer.ConfirmPassword,
+                CNIC=buyer.CNIC,
+                Phone=buyer.Phone,
+                RegistrationDate=DateTime.Now,
+            };
+            await _context.Buyers.AddAsync(newBuyer);
             await _context.SaveChangesAsync();
         }
 
