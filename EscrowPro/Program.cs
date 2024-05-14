@@ -7,6 +7,7 @@ using EscrowPro.Infrastructure.Repositories;
 using EscrowPro.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseRouting();
+
+app.Run();
 
 app.UseHttpsRedirection();
 
