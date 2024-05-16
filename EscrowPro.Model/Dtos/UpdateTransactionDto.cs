@@ -10,9 +10,14 @@ namespace EscrowPro.Core.Dtos
     {
         public int Amount { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public string Description { get; set; }
 
-        public DateTime CompletionDate { get; set; }
+        public int? BuyerId { get; set; }
 
+        public int? SellerId { get; set; }
+
+        public int? ProductId { get; set; }
+
+        public int? StatusId { get; set; }
     }
 }

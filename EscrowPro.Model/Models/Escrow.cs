@@ -14,10 +14,6 @@ namespace EscrowPro.Core.Models
 
         public DateTime ReleaseDate {  get; set; }
 
-        public int TransactionId { get; set; }
-
-        public Transaction Transaction { get; set; }
-
         public int StatusId { get; set; }
 
         public Status Status {  get; set; }

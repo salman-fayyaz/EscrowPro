@@ -20,7 +20,7 @@ namespace EscrowPro.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ReadBuyerDto>> CreateBuyerAsync([FromBody]CreateBuyerDto createBuyerDto)
+        public async Task<ActionResult> CreateBuyerAsync([FromBody]CreateBuyerDto createBuyerDto)
         {
             await _buyerServices.CreateBuyerAsync(createBuyerDto);
             return Ok();

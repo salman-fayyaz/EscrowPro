@@ -13,14 +13,10 @@ namespace EscrowPro.Infrastructure.Repositories
     {
         private readonly EscrowProContext _context;
 
-        private readonly IMapper _mapper;
 
-        private readonly IBuyerService _buyerService;
-
-        public BuyerRepository(EscrowProContext escrowProContext, IMapper mapper)
+        public BuyerRepository(EscrowProContext escrowProContext)
         {
             _context = escrowProContext;
-            _mapper = mapper;
         }
 
         public async Task CreateBuyerAsync(Buyer buyer)

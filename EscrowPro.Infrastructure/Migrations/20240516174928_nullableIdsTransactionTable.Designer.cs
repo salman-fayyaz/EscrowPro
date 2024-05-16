@@ -4,6 +4,7 @@ using EscrowPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EscrowPro.Infrastructure.Migrations
 {
     [DbContext(typeof(EscrowProContext))]
-    partial class EscrowProContextModelSnapshot : ModelSnapshot
+    [Migration("20240516174928_nullableIdsTransactionTable")]
+    partial class nullableIdsTransactionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -165,9 +168,15 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("StatusId")
+                        .IsUnique();
+
+                    b.HasIndex("TransactionId")
                         .IsUnique();
 
                     b.ToTable("Escrows");
@@ -377,7 +386,7 @@ namespace EscrowPro.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SellerId")
@@ -386,7 +395,7 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -394,14 +403,12 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasIndex("BuyerId");
 
                     b.HasIndex("ProductId")
-                        .IsUnique()
-                        .HasFilter("[ProductId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("SellerId");
 
                     b.HasIndex("StatusId")
-                        .IsUnique()
-                        .HasFilter("[StatusId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Transactions");
                 });
@@ -436,7 +443,15 @@ namespace EscrowPro.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("EscrowPro.Core.Models.Transaction", "Transaction")
+                        .WithOne("Escrow")
+                        .HasForeignKey("EscrowPro.Core.Models.Escrow", "TransactionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Status");
+
+                    b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("EscrowPro.Core.Models.Payment", b =>
@@ -490,7 +505,8 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasOne("EscrowPro.Core.Models.Product", "Product")
                         .WithOne("Transaction")
                         .HasForeignKey("EscrowPro.Core.Models.Transaction", "ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("EscrowPro.Core.Models.Seller", "Seller")
                         .WithMany("Transactions")
@@ -500,7 +516,8 @@ namespace EscrowPro.Infrastructure.Migrations
                     b.HasOne("EscrowPro.Core.Models.Status", "Status")
                         .WithOne("Transaction")
                         .HasForeignKey("EscrowPro.Core.Models.Transaction", "StatusId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Buyer");
 
@@ -549,6 +566,9 @@ namespace EscrowPro.Infrastructure.Migrations
             modelBuilder.Entity("EscrowPro.Core.Models.Transaction", b =>
                 {
                     b.Navigation("Dispute")
+                        .IsRequired();
+
+                    b.Navigation("Escrow")
                         .IsRequired();
 
                     b.Navigation("Payment")
