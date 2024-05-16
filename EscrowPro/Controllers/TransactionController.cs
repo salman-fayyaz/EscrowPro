@@ -19,8 +19,9 @@ namespace EscrowPro.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateTransactionAsync([FromBody] CreateTransactionDto createTransactionDto)
         {
-            var userId = await _transactionServices.CreateTransactionAsync(createTransactionDto);
-            return Ok(userId);
+            var (id, name, token) = await _transactionServices.CreateTransactionAsync(createTransactionDto);
+            string response = $"{id},{name},{token}";
+            return Ok(response);
         }
 
         [HttpGet]
@@ -37,6 +38,17 @@ namespace EscrowPro.Controllers
             if (transaction == null)
             {
                 return NotFound();
+            }
+            return Ok(transaction);
+        }
+
+        [HttpGet("token/{token}")]
+        public async Task<ActionResult<ReadTransactionDto>> GetTransactionByTokenAsync(string token)
+        {
+            var transaction = await _transactionServices.GetTransactionByToken(token);
+            if (transaction == null)
+            {
+                return NotFound("No transaction found for the provided token.");
             }
             return Ok(transaction);
         }

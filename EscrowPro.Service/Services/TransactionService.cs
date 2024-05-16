@@ -32,8 +32,9 @@ namespace EscrowPro.Service.Services
 
         }
 
-        public async Task<int> CreateTransactionAsync(CreateTransactionDto createTransactionDto)
+        public async Task<(int,string,string)> CreateTransactionAsync(CreateTransactionDto createTransactionDto)
         {
+
             if (createTransactionDto == null)
             {
                 throw new ArgumentNullException(null);
@@ -48,9 +49,9 @@ namespace EscrowPro.Service.Services
                     SellerId = createTransactionDto.SellerId,
                 };
                 var transaction = _mapper.Map<Transaction>(newTransactionDto);
-                await _transactionRepository.CreateTransactionAsync(transaction);
+                var token = _transactionRepository.CreateTransactionAsync(transaction);
                 int id = (int)transaction.SellerId;
-                return id;
+                return (id, "Seller", await token);
             }
             if (createTransactionDto.BuyerId.HasValue && createTransactionDto.SellerId==0)
             {
@@ -62,11 +63,11 @@ namespace EscrowPro.Service.Services
                     //SellerId = createTransactionDto.SellerId,
                 };
                 var transaction = _mapper.Map<Transaction>(newTransactionDto);
-                await _transactionRepository.CreateTransactionAsync(transaction);
+                var token = _transactionRepository.CreateTransactionAsync(transaction);
                 int id = (int)transaction.BuyerId;
-                return id;
+                return (id, "Buyer",await token);
             }
-            return 0;
+            return (0,"Services Error","");
         }
 
         public async Task<ReadTransactionDto> DeleteTransactionAsync(int id)
@@ -97,6 +98,17 @@ namespace EscrowPro.Service.Services
                 throw new ArgumentNullException("id");
             }
             var existTransaction = await _transactionRepository.GetTransactionByIdAsync(id);
+            var foundTransaction = _mapper.Map<ReadTransactionDto>(existTransaction);
+            return foundTransaction;
+        }
+
+        public async Task<ReadTransactionDto> GetTransactionByToken(string token)
+        {
+            if (token == null)
+            {
+                throw new ArgumentNullException("token");
+            }
+            var existTransaction = await _transactionRepository.GetTransactionByTokenAsync(token);
             var foundTransaction = _mapper.Map<ReadTransactionDto>(existTransaction);
             return foundTransaction;
         }

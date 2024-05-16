@@ -10,7 +10,7 @@ namespace EscrowPro.Core.Repositories.DbInterfaces
 {
     public interface ITransactionRepository
     {
-        Task CreateTransactionAsync(Transaction transaction);
+        Task<string> CreateTransactionAsync(Transaction transaction);
 
         Task<IEnumerable<Transaction>> GetAllTransactionsAsync();
 
@@ -19,5 +19,7 @@ namespace EscrowPro.Core.Repositories.DbInterfaces
         Task<Transaction> UpdateTransactionAsync(int id, Transaction transaction);
 
         Task<Transaction> DeleteTransactionAsync(int id);
+
+        Task<Transaction> GetTransactionByTokenAsync(string token);
     }
 }

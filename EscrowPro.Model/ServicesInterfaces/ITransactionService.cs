@@ -9,7 +9,7 @@ namespace EscrowPro.Core.ServicesInterfaces
 {
     public interface ITransactionService
     {
-        Task<int> CreateTransactionAsync(CreateTransactionDto createTransactionDto);
+        Task<(int,string,string)> CreateTransactionAsync(CreateTransactionDto createTransactionDto);
 
         Task<IEnumerable<ReadTransactionDto>> GetAllTransactionsAsync();
 
@@ -18,5 +18,7 @@ namespace EscrowPro.Core.ServicesInterfaces
         Task<UpdateTransactionDto> UpdateTransactionAsync(int id, UpdateTransactionDto updateTransactionDto);
 
         Task<ReadTransactionDto> DeleteTransactionAsync(int id);
+
+        Task<ReadTransactionDto> GetTransactionByToken(string token);
     }
 }

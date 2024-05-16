@@ -20,5 +20,7 @@ namespace EscrowPro.Core.Dtos
 
         public int? StatusId { get; set; }
 
+        public string Token { get; set; }
+
     }
 }
