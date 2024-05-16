@@ -10,10 +10,10 @@ namespace EscrowPro.Core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id {  get; set; }
 
+        public string Cause {  get; set; }
+
         public int TransactionId { get; set; }
 
         public Transaction Transaction { get; set; }
-
-
     }
 }

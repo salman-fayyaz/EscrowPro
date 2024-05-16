@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Numerics;
+using AutoMapper;
 using EscrowPro.Core.Dtos;
 using EscrowPro.Core.Models;
+using EscrowPro.Core.Repositories.DbInterfaces;
 using EscrowPro.Core.ServicesInterfaces;
 using EscrowPro.Infrastructure.Data;
+using EscrowPro.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -11,126 +14,72 @@ namespace EscrowPro.Service.Services
 {
     public class BuyerService : IBuyerService
     {
-        private readonly EscrowProContext _context;
+        private readonly IBuyerRepository _buyerRepository;
+        
+        private readonly IMapper _mapper;
 
         public BuyerService(){}
 
-        public BuyerService(EscrowProContext escrowProContext)
+        public BuyerService(IBuyerRepository buyerRepository, IMapper mapper)
         {
-            _context=escrowProContext;
+            _buyerRepository = buyerRepository;
+            _mapper = mapper;
         }
 
-        public async Task<CreateBuyerDto> CreateBuyerAsync(CreateBuyerDto buyerCreateDto)
+        public async Task CreateBuyerAsync(CreateBuyerDto createBuyerDto)
         {
-            if (buyerCreateDto == null)
+            if (createBuyerDto == null)
+            {
+                throw new ArgumentNullException(null);
+            }
+            var buyer = _mapper.Map<Buyer>(createBuyerDto);
+            await _buyerRepository.CreateBuyerAsync(buyer);
+        }
+
+        public async Task<ReadBuyerDto> DeleteBuyerAsync(int id)
+        {
+            if(id == null || id <= 0)
+            {
+                throw new ArgumentNullException("id"); 
+            }
+            var buyer = await _buyerRepository.DeleteBuyerAsync(id);
+            if (buyer == null)
             {
                 return null;
             }
-            var newBuyer = new Buyer
-            {
-                Name = buyerCreateDto.Name,
-                Email = buyerCreateDto.Email,
-                Password = buyerCreateDto.Password,
-                ConfirmPassword = buyerCreateDto.ConfirmPassword,
-                Phone = buyerCreateDto.Phone,
-                CNIC = buyerCreateDto.CNIC,
-                RegistrationDate=DateTime.Now
-                
-            };
-
-            await _context.Buyers.AddAsync(newBuyer);
-            await _context.SaveChangesAsync();
-            return buyerCreateDto;
-        }
-
-        public async Task<List<ReadBuyerDto>> DeleteBuyerAsync(int id)
-        {
-            var deleteBuyer = new List<ReadBuyerDto>();
-            var existId = await _context.Buyers.FindAsync(id);
-            if (existId == null)
-            {
-                return null;
-            }
-            _context.Buyers.Remove(existId);
-            await _context.SaveChangesAsync();
-            var existingBuyer = new ReadBuyerDto
-            {
-                Id=existId.Id,
-                Name=existId.Name,
-                Email=existId.Email,
-                CNIC=existId.CNIC,
-                Phone=existId.Phone,         
-            };
-            deleteBuyer.Add(existingBuyer);
-            return deleteBuyer;
+            return _mapper.Map<ReadBuyerDto>(buyer);
+             
         }
 
         public async Task<IEnumerable<ReadBuyerDto>> GetAllBuyersAsync()
         {
-            var buyersDtoList=new List<ReadBuyerDto>();
-            var buyers= await _context.Buyers.ToListAsync();
-            foreach (var buyer in buyers)
-            {
-                var dtoBuyer = new ReadBuyerDto
-                {
-                    Id=buyer.Id,
-                    Name=buyer.Name,
-                    Email=buyer.Email,
-                    CNIC=buyer.CNIC,
-                    Phone=buyer.Phone,
-                };
-                buyersDtoList.Add(dtoBuyer);
-            }
-            return buyersDtoList;
+            var allBuyers = await _buyerRepository.GetAllBuyersAsync();
+            var buyers = _mapper.Map<List<ReadBuyerDto>>(allBuyers);
+            return buyers;
         }
 
-        public async Task<List<ReadBuyerDto>> GetBuyerByIdAsync(int id)
+        public async Task<ReadBuyerDto> GetBuyerByIdAsync(int id)
         {
-            var foundBuyerList = new List<ReadBuyerDto>();
-            var findId = await _context.Buyers.FindAsync(id);
-            if(findId == null)
+            if(id == null || id <=0)
             {
-                return null;
+                throw new ArgumentNullException("id");
             }
-            var buyerDto = new ReadBuyerDto
-            {
-                Id = findId.Id,
-                Name = findId.Name,
-                Email=findId.Email,
-                CNIC=findId.CNIC,
-                Phone=findId.Phone,
-            };
-
-            foundBuyerList.Add(buyerDto);
-            return foundBuyerList;
+            var existBuyer = await _buyerRepository.GetBuyerByIdAsync(id);
+            var foundBuyer = _mapper.Map<ReadBuyerDto>(existBuyer);
+            return foundBuyer;
         }
 
-        public async Task<List<UpdateBuyerDto>> UpdateBuyerAsync(int id, UpdateBuyerDto buyerUpdateDto)
+        public async Task<UpdateBuyerDto> UpdateBuyerAsync(int id, UpdateBuyerDto updateBuyerDto)
         {
-            var updatedbuyerList = new List<UpdateBuyerDto>();
-            var updateBuyer = await _context.Buyers.FindAsync(id);
-            if (updateBuyer == null)
+            //ReadDtoMustUseIT,/..........THinkIt
+            if(id==null || id <= 0)
             {
-                return null;
+                throw new ArgumentNullException("id");
             }
-            updateBuyer.Id = id;
-            updateBuyer.Name = buyerUpdateDto.Name;
-            updateBuyer.Email= buyerUpdateDto.Email;
-            updateBuyer.Password= buyerUpdateDto.Password;
-            updateBuyer.ConfirmPassword= buyerUpdateDto.ConfirmPassword;
-            updateBuyer.Phone= buyerUpdateDto.Phone;
-            updateBuyer.CNIC= buyerUpdateDto.CNIC;
-            var updatedBuyer = new UpdateBuyerDto
-            {
-                Name=updateBuyer.Name,
-                Email=updateBuyer.Email,
-                Phone=updateBuyer.Phone,
-                CNIC=updateBuyer.CNIC,
-                Password=updateBuyer.Password,
-                ConfirmPassword=updateBuyer.ConfirmPassword,
-            };
-            updatedbuyerList.Add(updatedBuyer);
-            return updatedbuyerList;
+            var buyerModel = _mapper.Map<Buyer>(updateBuyerDto);
+            var buyer = _buyerRepository.UpdateBuyerAsync(id, buyerModel);
+            var buyerDto=_mapper.Map<UpdateBuyerDto>(buyer);
+            return buyerDto;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace EscrowPro.Core.Profiles
             CreateMap<Buyer,ReadBuyerDto>();
             CreateMap<CreateBuyerDto, Buyer>();
             CreateMap<UpdateBuyerDto,Buyer>();
+            CreateMap<Buyer, UpdateBuyerDto>();
         }
     }
 }
