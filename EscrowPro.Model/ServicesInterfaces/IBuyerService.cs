@@ -6,16 +6,15 @@ namespace EscrowPro.Core.ServicesInterfaces
 {
     public interface IBuyerService
     {
-        Task<CreateBuyerDto> CreateBuyerAsync(CreateBuyerDto buyerCreateDto);
+        Task  CreateBuyerAsync(CreateBuyerDto buyerCreateDto);
 
         Task<IEnumerable<ReadBuyerDto>> GetAllBuyersAsync();
 
-        Task<List<ReadBuyerDto>> GetBuyerByIdAsync(int id);
+        Task<ReadBuyerDto> GetBuyerByIdAsync(int id);
 
-        Task<List<UpdateBuyerDto>> UpdateBuyerAsync(int id, UpdateBuyerDto buyerUpdateDto);
+        Task<UpdateBuyerDto> UpdateBuyerAsync(int id, UpdateBuyerDto updateBuyerDto);
 
-        Task<List<ReadBuyerDto>> DeleteBuyerAsync(int id);
-
+        Task<ReadBuyerDto> DeleteBuyerAsync(int id);
         
     }
 }
