@@ -12,7 +12,7 @@ namespace EscrowPro.Core.Profiles
             CreateMap<Seller, ReadSellerDto>();
             CreateMap<CreateSellerDto, Seller>();
             CreateMap<UpdateSellerDto, Seller>();
+            CreateMap<Seller, UpdateSellerDto>();
         }
-
     }
 }

@@ -15,38 +15,31 @@ namespace EscrowPro.Core.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage ="House number is required")]
-        public string House {  get; set; }
+        public string HouseNo {  get; set; }
 
         [Required(ErrorMessage ="Street number is required")]
-        public string street { get; set; }
+        public string Street { get; set; }
 
-        [Required(ErrorMessage ="City is required")]
-        public string city { get; set; }
-
-        [Required(ErrorMessage ="Area is required")]
+        [Required(ErrorMessage = "Area is required")]
         public string Area { get; set; }
 
-        [Required(ErrorMessage ="Address is required")]
-        public string CompleteAddress { get; set; }
+        [Required(ErrorMessage = "City is required")]
+        public string City { get; set; }
 
-        [Required(ErrorMessage ="Nationality is required")]
-        public string Nationality { get; set; }
+        [Required(ErrorMessage = "Zip code is required")]
+        public string ZipCode { get; set; }
 
-        [Required(ErrorMessage = "Date of Birth is required")]
-        public DateTime DateOfBirth { get; set; }
+        [Required(ErrorMessage ="Country is required")]
+        public string CountryState { get; set; }
 
-        [Required(ErrorMessage = "Phone number is required")]
-        [Phone(ErrorMessage = "Invalid phone number")]
-        public string Phone { get; set; }
+        [Required(ErrorMessage ="CNIC Number is required")]
+        public string CNICBuyer { get; set; }
 
-        public byte[] ProfilePicture { get; set; }
+        [Required(ErrorMessage = "CNIC Image")]
+        public Byte[] CnicImage { get; set; }
 
-        public byte[] IDCardImage { get; set; }
+        [Required(ErrorMessage = "KYC Image is required")]
+        public Byte[] KycImage { get; set; }
 
-        public byte[] KYC { get; set; }
-
-        public int BuyerId { get; set; }
-
-        public Buyer buyer { get; set; }
     }
 }

@@ -26,6 +26,8 @@ builder.Services.AddTransient<IBuyerService,BuyerService>();
 builder.Services.AddTransient<IBuyerRepository, BuyerRepository>();
 builder.Services.AddTransient<ITransactionService,TransactionService>();
 builder.Services.AddTransient<ITransactionRepository,TransactionRepository>();
+builder.Services.AddTransient<IBuyerFormService,BuyerFormService>();
+builder.Services.AddTransient<IBuyerFormRepository,BuyerFormRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(configuration => configuration
