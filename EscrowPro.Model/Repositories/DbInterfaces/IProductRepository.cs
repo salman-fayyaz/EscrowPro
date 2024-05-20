@@ -19,6 +19,5 @@ namespace EscrowPro.Core.Repositories.DbInterfaces
 
         Task DeleteProductAsync(int id);
 
-        Task<Product> GetProductByTokenAsync(string token);
     }
 }

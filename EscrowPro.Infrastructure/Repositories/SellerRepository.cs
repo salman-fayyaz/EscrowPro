@@ -17,19 +17,24 @@ namespace EscrowPro.Infrastructure.Repositories
     {
         private readonly EscrowProContext _context;
 
-        private readonly IMapper _mapper;
-
-        private readonly ISellerService _sellerService;
-
-        public SellerRepository(EscrowProContext escrowProContext, IMapper mapper)
+        public SellerRepository(EscrowProContext escrowProContext)
         {
             _context = escrowProContext;
-            _mapper = mapper;
         }
 
         public async Task CreateSellerAsync(Seller seller)
         {
-            await _context.Sellers.AddAsync(seller);
+            var newSeller = new Seller
+            {
+                Name = seller.Name,
+                Email = seller.Email,
+                Password = seller.Password,
+                ConfirmPassword = seller.ConfirmPassword,
+                CNIC = seller.CNIC,
+                Phone =seller.Phone,
+                RegistrationDate = DateTime.Now,
+            };
+            await _context.Sellers.AddAsync(newSeller);
             await _context.SaveChangesAsync();
         }
 

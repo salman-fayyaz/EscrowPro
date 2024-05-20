@@ -34,7 +34,5 @@ namespace EscrowPro.Core.Dtos
         [Required(ErrorMessage = "Phone number is required")]
         [Phone(ErrorMessage = "Invalid phone number")]
         public string Phone { get; set; }
-
-        public DateTime RegistrationDate { get; set; }
     }
 }

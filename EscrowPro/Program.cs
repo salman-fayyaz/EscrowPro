@@ -24,10 +24,14 @@ builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<IBuyerService,BuyerService>();
 builder.Services.AddTransient<IBuyerRepository, BuyerRepository>();
+builder.Services.AddTransient<ISellerService, SellerService>();
+builder.Services.AddTransient<ISellerRepository, SellerRepository>();
 builder.Services.AddTransient<ITransactionService,TransactionService>();
 builder.Services.AddTransient<ITransactionRepository,TransactionRepository>();
 builder.Services.AddTransient<IBuyerFormService,BuyerFormService>();
 builder.Services.AddTransient<IBuyerFormRepository,BuyerFormRepository>();
+builder.Services.AddTransient<IProductService,ProductService>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(configuration => configuration

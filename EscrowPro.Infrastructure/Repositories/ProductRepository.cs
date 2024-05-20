@@ -13,16 +13,12 @@ namespace EscrowPro.Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly IProductRepository _productRepository;
-
-        private readonly IMapper _mapper;
 
         private readonly EscrowProContext _context;
 
-        public ProductRepository(IProductRepository productRepository, IMapper mapper)
+        public ProductRepository(EscrowProContext context)
         {
-            _productRepository= productRepository;
-            _mapper = mapper;
+            _context = context;
         }
 
         public async Task CreateProductAsync(Product product)
@@ -39,11 +35,6 @@ namespace EscrowPro.Infrastructure.Repositories
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public async Task<Product> GetProductByTokenAsync(string token)
-        {
-            return await _context.Products.FirstOrDefaultAsync(p => p.Token == token);
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
