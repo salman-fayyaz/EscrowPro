@@ -42,7 +42,7 @@ namespace EscrowPro.Controllers
             return Ok(transaction);
         }
 
-        [HttpGet("token/{token}")]
+        [HttpPost("{token}")]
         public async Task<ActionResult<ReadTransactionDto>> GetTransactionByTokenAsync(string token)
         {
             var transaction = await _transactionServices.GetTransactionByToken(token);

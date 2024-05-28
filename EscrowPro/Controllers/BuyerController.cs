@@ -5,6 +5,7 @@ using EscrowPro.Core.ServicesInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Net.Security;
 
 namespace EscrowPro.Controllers
 {
@@ -23,7 +24,7 @@ namespace EscrowPro.Controllers
         public async Task<ActionResult> CreateBuyerAsync([FromBody]CreateBuyerDto createBuyerDto)
         {
             await _buyerServices.CreateBuyerAsync(createBuyerDto);
-            return Ok();
+            return Ok($"Received string: Api Response");
         }
 
         [HttpGet]

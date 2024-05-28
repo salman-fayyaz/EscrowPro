@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using EscrowPro.Core.Dtos;
+using EscrowPro.Core.Models;
 using EscrowPro.Core.Repositories.DbInterfaces;
 using EscrowPro.Core.ServicesInterfaces;
 using System;
@@ -21,9 +23,15 @@ namespace EscrowPro.Service.Services
             _mapper=mapper;
         }
 
-        public Task CheckUserExist(string email, string password)
+        public async Task<(Boolean,string,int)> CheckLoginStatusAsync(CreateLoginDto createLoginDto)
         {
-            
+            if (createLoginDto == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var userLogin = _mapper.Map<Login>(createLoginDto);
+            var login = await _loginRepostory.CheckLoginStatusAsync(userLogin);
+            return login;
         }
     }
 }

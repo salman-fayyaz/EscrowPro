@@ -38,5 +38,7 @@ namespace EscrowPro.Infrastructure.Data
         public DbSet<BuyerForm> BuyerForms { get; set; }
 
         public DbSet<SellerForm> SellerForms {  get; set; }
+
+        public DbSet<Login>Logins { get; set; }
     }
 }

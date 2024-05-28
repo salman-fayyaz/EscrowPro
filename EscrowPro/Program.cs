@@ -22,16 +22,18 @@ builder.Services.AddDbContext<EscrowProContext>(options => options.UseInMemoryDa
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddTransient<IBuyerService,BuyerService>();
+builder.Services.AddTransient<IBuyerService, BuyerService>();
 builder.Services.AddTransient<IBuyerRepository, BuyerRepository>();
 builder.Services.AddTransient<ISellerService, SellerService>();
 builder.Services.AddTransient<ISellerRepository, SellerRepository>();
-builder.Services.AddTransient<ITransactionService,TransactionService>();
-builder.Services.AddTransient<ITransactionRepository,TransactionRepository>();
-builder.Services.AddTransient<IBuyerFormService,BuyerFormService>();
-builder.Services.AddTransient<IBuyerFormRepository,BuyerFormRepository>();
-builder.Services.AddTransient<IProductService,ProductService>();
+builder.Services.AddTransient<ITransactionService, TransactionService>();
+builder.Services.AddTransient<ITransactionRepository, TransactionRepository>();
+builder.Services.AddTransient<IBuyerFormService, BuyerFormService>();
+builder.Services.AddTransient<IBuyerFormRepository, BuyerFormRepository>();
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<ILoginService, LoginService>();
+builder.Services.AddTransient<ILoginRepository, LoginRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(configuration => configuration
@@ -46,6 +48,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -53,3 +58,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
