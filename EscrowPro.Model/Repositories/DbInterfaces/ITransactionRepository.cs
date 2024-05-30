@@ -21,5 +21,7 @@ namespace EscrowPro.Core.Repositories.DbInterfaces
         Task<Transaction> DeleteTransactionAsync(int id);
 
         Task<Transaction> GetTransactionByTokenAsync(string token);
+
+        Task<Transaction> GetTransactionByUserRoleAsync(string role, int id);
     }
 }

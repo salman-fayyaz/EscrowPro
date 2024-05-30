@@ -27,7 +27,7 @@ namespace EscrowPro.Controllers
             return Ok($"Received string: Api Response");
         }
 
-        [HttpGet]
+        [HttpGet("GetBuyer")]
         public async Task<ActionResult<ReadBuyerDto>> GetAllBuyersAsync()
         {
             var buyers = await _buyerServices.GetAllBuyersAsync();

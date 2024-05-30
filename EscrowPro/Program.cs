@@ -18,9 +18,8 @@ builder.Services.AddDbContext<EscrowProContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
-builder.Services.AddDbContext<EscrowProContext>(options => options.UseInMemoryDatabase("Test_Database"));
+//builder.Services.AddDbContext<EscrowProContext>(options => options.UseInMemoryDatabase("Test_Database"));
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<IBuyerService, BuyerService>();
 builder.Services.AddTransient<IBuyerRepository, BuyerRepository>();
@@ -47,9 +46,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseSwagger();
-app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

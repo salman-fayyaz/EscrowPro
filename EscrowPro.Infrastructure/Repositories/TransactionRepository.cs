@@ -96,6 +96,23 @@ namespace EscrowPro.Infrastructure.Repositories
             return foundTransaction;
         }
 
+        public async Task<Transaction> GetTransactionByUserRoleAsync(string role,int id)
+        {
+            if (id == null && role == null)
+            {
+                throw new ArgumentNullException(null);
+            }
+            if (role == "Buyer")
+            {
+                return await _context.Transactions.FirstOrDefaultAsync(b=>b.BuyerId==id);
+            }
+            if (role == "Seller")
+            {
+                return await _context.Transactions.FirstOrDefaultAsync(s=>s.SellerId==id);
+            }
+            throw new ArgumentException("Invalid role", nameof(role));
+        }
+
         public Task<Transaction> UpdateTransactionAsync(int id, Transaction transaction)
         {
             throw new NotImplementedException();

@@ -42,6 +42,17 @@ namespace EscrowPro.Controllers
             return Ok(transaction);
         }
 
+        [HttpGet("{role}/{id}")]
+        public async Task<ActionResult<ReadTransactionDto>> GetTransactionByUserRoleAsync(string role, int id)
+        {
+            var transaction = await _transactionServices.GetTransactionByUserRoleAsync(role, id);
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+            return Ok(transaction);
+        }
+
         [HttpPost("{token}")]
         public async Task<ActionResult<ReadTransactionDto>> GetTransactionByTokenAsync(string token)
         {

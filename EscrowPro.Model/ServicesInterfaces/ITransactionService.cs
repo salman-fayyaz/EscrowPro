@@ -19,6 +19,8 @@ namespace EscrowPro.Core.ServicesInterfaces
 
         Task<ReadTransactionDto> DeleteTransactionAsync(int id);
 
+        Task<ReadTransactionDto> GetTransactionByUserRoleAsync(string role, int id);
+
         Task<ReadTransactionDto> GetTransactionByToken(string token);
     }
 }

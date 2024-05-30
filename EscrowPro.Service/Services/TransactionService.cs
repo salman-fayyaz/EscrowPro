@@ -113,6 +113,18 @@ namespace EscrowPro.Service.Services
             return foundTransaction;
         }
 
+        public async Task<ReadTransactionDto> GetTransactionByUserRoleAsync(string role, int id)
+        {
+            if (id == null&&role==null)
+            {
+                throw new ArgumentNullException("token");
+            }
+            var existTransaction = await _transactionRepository.GetTransactionByUserRoleAsync(role,id);
+            var foundTransaction = _mapper.Map<ReadTransactionDto>(existTransaction);
+            return foundTransaction;
+        }
+
+
         public Task<UpdateTransactionDto> UpdateTransactionAsync(int id, UpdateTransactionDto updateTransactionDto)
         {
             throw new NotImplementedException();

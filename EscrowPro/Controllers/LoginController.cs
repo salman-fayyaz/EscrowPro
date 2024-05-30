@@ -16,7 +16,7 @@ namespace EscrowPro.Controllers
             _loginService = loginService;
         }
 
-        [HttpPost]
+        [HttpPost()]
         public async Task<IActionResult> CheckLoginStatusAsync(CreateLoginDto createLoginDto)
         {
             if (createLoginDto == null)
